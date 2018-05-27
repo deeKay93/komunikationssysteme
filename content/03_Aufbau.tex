@@ -1,1 +1,37 @@
 \section{Aufbau}\label{sec:aufbau}
+
+Die Komponenten sind wie folgt untereinander gekoppelt.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[
+            box/.style={rectangle,draw,minimum width=3cm,minimum height=2cm},
+            rar/.style={->,shorten >=1mm, shorten <=1mm}
+    ]
+
+    \node[box] (harmony) {Harmony Hub};
+
+    \node[box, above = 1cm of harmony] (echo) {Echo Dot};
+    \draw[rar] (echo) -- node[right] {???} (harmony);
+
+
+    \node[box, right = 5cm of harmony] (playstation) {Playstation 4};
+    \draw[rar] (harmony) -- node[above] {Bluetooth} (playstation);
+
+    \node[box, below = 1cm of playstation] (homeass) {Homeassistant};
+    \draw[rar] (harmony) |- node[above right] {IP} (homeass);
+    \draw[rar] (homeass) -- node[right] {IP} (playstation);
+
+    % \node[box, right=5cm of harmony] (dest) {Destination};
+    % \node[box, above right=2.5cm and 2.5cm of harmony, anchor=center] (relay) {Relay};
+
+    % \draw[rar] (harmony.north) -- node[above,sloped] {First Time Slot} node[below,sloped]{${\mathbf H}_0$} (relay.west);
+
+    % \draw[rar] ([xshift=5mm]harmony.east) -- node[below,sloped] {First Time Slot} node[above,sloped]{${\mathbf H}_1$} ([xshift=-5mm]dest.west);
+
+    % \draw[rar,dashed] (relay.east) -- node[above,sloped] {Second Time Slot} node[below,sloped]{${\mathbf H}_2$} (dest.north);
+
+    \end{tikzpicture}
+    \caption{Aufbau}
+    \label{fig:aufbau}
+\end{figure}
