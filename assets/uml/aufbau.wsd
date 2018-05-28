@@ -1,0 +1,24 @@
+@startuml Aufbau
+skinparam componentStyle uml2
+skinparam monochrome true
+
+interface "LAN" as lanPs4
+interface "Bluetooth" as btPs4
+interface "???" as harmonyIn
+
+[Echo Dot] -> harmonyIn
+
+package "Raspberry Pi - Homeassistant" {
+  interface "CLI" as cliPs4W
+  [Homeassistant] -> cliPs4W
+  cliPs4W - [PS4-waker]
+}
+
+lanPs4  - [Playstation 4]
+btPs4 -- [Playstation 4]
+[PS4-waker] --> lanPs4
+
+harmonyIn - [Harmony Hub]
+[Harmony Hub] --> btPs4
+
+@enduml
