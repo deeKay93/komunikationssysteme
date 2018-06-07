@@ -1,6 +1,6 @@
 % Colors
 \definecolor{ListingBackground}{HTML}{FFFFFF}
-\definecolor{LinkColor}{HTML}{00007A}
+\definecolor{LinkColor}{HTML}{000000}
 
 
 % Font
@@ -29,6 +29,11 @@
 \sisetup{detect-weight=true, detect-family=true} % SI Units shall detect font weight and family
 \setlist[description]{style=nextline} % Break definitions of terms to a new line (used by \begin{description} \item[foo] bar \end{description})
 \renewcommand*{\bibfont}{\small}
+
+%Hurenkinder und Schusterjungen vermeiden
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
 
 % Quellcode
 \usepackage{listings}

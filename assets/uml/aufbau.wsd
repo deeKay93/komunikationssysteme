@@ -4,6 +4,7 @@ skinparam monochrome true
 
 interface "LAN" as lanPs4
 interface "Bluetooth" as btPs4
+interface "Bluetooth" as btKodi
 interface "???" as harmonyIn
 
 [Echo Dot] -> harmonyIn
@@ -20,5 +21,8 @@ btPs4 -- [Playstation 4]
 
 harmonyIn - [Harmony Hub]
 [Harmony Hub] --> btPs4
+
+[Harmony Hub] -> btKodi
+btKodi -- [Raspberry Pi -\n Kodi]
 
 @enduml
