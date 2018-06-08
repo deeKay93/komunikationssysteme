@@ -4,25 +4,38 @@ skinparam monochrome true
 
 interface "LAN" as lanPs4
 interface "Bluetooth" as btPs4
-interface "Bluetooth" as btKodi
-interface "???" as harmonyIn
+interface "LAN*" as harmonyIn
 
-[Echo Dot] -> harmonyIn
-
-package "Raspberry Pi - Homeassistant" {
+package "Raspberry Pi - Hassbian" {
   interface "CLI" as cliPs4W
-  [Homeassistant] -> cliPs4W
+  interface "LAN" as lanHass
+  lanHass - [Homeassistant]
+  [Homeassistant] --> cliPs4W
   cliPs4W - [PS4-waker]
 }
 
-lanPs4  - [Playstation 4]
-btPs4 -- [Playstation 4]
-[PS4-waker] --> lanPs4
+[Playstation 4] -- lanPs4
+btPs4 - [Playstation 4]
+lanPs4 <--[PS4-waker]
+
+interface "Bluetooth" as btKodi
+package "Raspberry Pi - Mediacenter" {
+  [Kodi] -- btKodi
+  interface "LAN" as lanKodi
+  lanKodi - [Kodi]
+}
+package "Smartphone" {
+  ' [Kore] -> lanKodi
+  lanKodi <-- [Kore]
+  [Harmony App] --> harmonyIn
+}
+
+
+harmonyIn <-- [Echo Dot]
 
 harmonyIn - [Harmony Hub]
-[Harmony Hub] --> btPs4
-
-[Harmony Hub] -> btKodi
-btKodi -- [Raspberry Pi -\n Kodi]
+[Harmony Hub] -> btPs4
+[Harmony Hub] --> lanHass
+btKodi <-- [Harmony Hub]
 
 @enduml

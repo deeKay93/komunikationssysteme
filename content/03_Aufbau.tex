@@ -1,9 +1,10 @@
-\section{Aufbau}\label{sec:aufbau}
+\section{Aufbau und Konfiguration}\label{sec:aufbau}
+Die in Kapitel \ref{sec:komponenten} \textit{\nameref{sec:komponenten}} beschriebenen Komponenten werden über verschiedene Technologien miteinander verküpft.
+In \autoref{fig:aufbau} wird grundlegend dargestellt welche Kompoennten miteinander verbunden sind.
+Hierbei ist anzumerken, dass Verbindungen über (W)LAN indirekt über einen Router erstellt werden.
+Zur Wahrung der Übersichtlichkeit sind lediglich die abstrakten Verbindungen auf Anwendungsebene dargestellt.
 
-In \autoref{fig:aufbau} wird dargestellt, wie die Komponenten auf Anwendungsebene miteinander verbunden sind.
-
-
-\begin{figure}[ht]
+\begin{figure}[ht!]
     \centering
     \resizebox{\textwidth}{!}{
         \input{assets/uml/Aufbau.latex}
@@ -11,3 +12,43 @@ In \autoref{fig:aufbau} wird dargestellt, wie die Komponenten auf Anwendungseben
     \caption{Aufbau}
     \label{fig:aufbau}
 \end{figure}
+
+\subsection{Harmony Hub}\label{sec:aufbau-hub}
+Im Zentrum des Schaubilds steht der Harmony Hub.
+Er selbst ist über WLAN mit dem Heimnetzwerk verbunden.
+Angesteuert wird der Harmony Hub per LAN entweder von der auf dem Smartphone installierten App oder vom Echo Dot.
+
+Der Hub ist an den ersten Raspberry Pi (gennant \textit{Mediacenter}, da auf diesem Kodi installiert ist)
+und an die Playstation 4 über Bluetooth als Fernbedienung angeschlossen.
+In beiden Fällen ist hierzu das bei Bluetooth-Geräten übliche \enquote{Pairing} notwendig.
+
+Außerdem ist de Hub an den zweiten Raspberry Pi (gennant \textit{Hassbian}, da dort das Betriebssystem genutzt wird) per LAN angeschlossen.
+Diese besondere Schnittstelle wird später im Detail betrachtet.
+
+\subsection{Raspberry Pi - Hassbian}\label{sec:aufbau-hassbian}
+Auf diesem Raspberry Pi ist das Betriebssytem \textit{Hassbian} installiert.
+Das darin enthaltene Home Assistant emuliert die sogennante \enquote{Hue Bridge} \cite{Emulated83:online}.
+Eigentlich ist die Hue Brige zentraler Bestandteil des smarten Lampensystems der Marke Phillips \cite{HueBridg65:online}.
+In Home Assistant wird die emulierte Bridge genutzt, um eine Verbindung zum Harmony Hub herzustellen.
+Home Assistant stellt hierzu sogennante \textit{Schalter} bereit, welche über die \textit{Hue API} an den Harmony Hub präsentiert werden.
+Aus Sicht des Hubs kommuniziert er mit einer \enquote{normalen} Hue Bridge.
+Jedoch lassen sich über die Schalter mehr als nur Lichter steuern.
+Eine mächtige Möglichkeit ist das in diesem Projekt genutzte ausführen von Kommandozeilenbefehlen über eine entsprechende Schnittstelle (\ac{cli}).
+
+Das \ac{cli} wird genutzt, um die Playstation 4 unter Nutzung des Programms \textit{ps4-waker}\cite{dhleongp12:online} zu steuern.
+Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub bereits eine direkte Verbindung zur Playstation 4 besitzt?
+Die Playstation lässt sich zwar per Bluetooth steuern, allerdings lässt sie sich auf diesem Weg nicht einschalten.
+Das Programm \textit{ps4-waker} hingegen erlaubt es die \ac{ps4} ein- sowie auszuschalten und sogar bestimmte Anwndungen zu starten.
+\todo[inline]{Details für PS4-waker? z.B. Prüfung, ob PS4 ein}
+
+\subsection{Raspberry Pi - Mediacenter}\label{sec:aufbau-mediacenter}
+Dieser Raspberry Pi wird durch \textit{Raspbian} betrieben.
+Hierbei ist das Programm \textit{Kodi} als Anwendung installiert.
+Insgesamt wird das Programm über zwei Schnittstellen gesteuert.
+
+Einerseits bietet das Programm selbst eine LAN-Schnittstelle.
+In diesem Projekt wird diese über die Smartphone-App \textit{Kore} genutzt.
+
+Andererseits kann \textit{Kodi} auch von Geräten gesteuert werden, welche an den Raspberry Pi direkt angeschlossen sind.
+Dies kann eine klassische Tastatur oder (wie in diese Projekt) über Bluetooth angeschlossenes Gerät sein.
+Der Harmony Hub funktioniert hierbei ähnlich wie eine Bluetooth-Tastatur.
