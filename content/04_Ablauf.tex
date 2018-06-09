@@ -12,6 +12,7 @@ Zur Untersuchung der Kommunikation zwischen der Geräten wird der Verkehr auf de
     \begin{enumerate}[label*=\arabic*.]
         \item Ein- und Ausschalten über \textit{Hassbian}
         \item Ein- und Ausschalten über \textit{Harmony Hub}
+        \item Ein- und Ausschalten über \textit{Echo Dot}
     \end{enumerate}
     \item Kodi
     \begin{enumerate}[label*=\arabic*.]
@@ -58,8 +59,7 @@ Der Mitschnitt von \texttt{lan} enthält zwar auch alle Pakete der zu betrachten
 Enthält jedoch auch viele andere Pakete was zu einem erhöhten Overhead führt.
 
 Der Mitschnitt der \textit{Routing-Schnittstelle} enthält lediglich Pakete welche vom Router an das Internet gesendet oder aus diesem Empfangenw werden.
-Diese Schnittstelle ist daher für den lokalen Verkehr ungeeignet.
-
+Diese Schnittstelle ist daher für den lokalen Verkehr ungeeignet.\\
 
 Das Erfassen der Pakete für eines der Szenarion folgt folgendem Muster:
 \begin{enumerate}
@@ -69,5 +69,4 @@ Das Erfassen der Pakete für eines der Szenarion folgt folgendem Muster:
     \item Beeenden des Paketmittschnitts
     \item Öffnen des Mitschnitts mit \textit{Wireshark} und filtern der relevanten Pakete
     \item Speichern des gefilterten Mitschnitts zur späteren Analyse
-    \item Wiederholen des Vorgangs, um je zwei Mitschnitte pro Szenario zur genaueren Analyse zu erhalten
 \end{enumerate}

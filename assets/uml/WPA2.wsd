@@ -1,0 +1,25 @@
+@startuml WPA2
+skinparam componentStyle uml2
+skinparam monochrome true
+
+participant "Echo Dot" as E
+participant "Router" as R
+
+autonumber 17
+E -> R : Authentifizierungsanfrage
+R -> E : Nonce Na
+
+autonumber stop
+E -> E : Berechnung PTK
+
+autonumber resume
+E -> R : Nonce Ns, Message Integrity Code (MIC), Key Data
+
+autonumber stop
+R -> R : Berechnung PTK
+
+autonumber resume
+R -> E : Group Transient Key (GTK) innerhalb der Key Data, MIC
+E -> R : MIC als Bestätigung
+
+@enduml
