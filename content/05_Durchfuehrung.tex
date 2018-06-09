@@ -164,7 +164,7 @@ um in einem nicht lesbaren Format verpackte Anwendungsdaten.\\
 
 Alle anderen Verbindungen verben mittels TLSv1.2 verschlüsselt.
 Daher kann der Inhalt der Pakete nicht (in Klartext) betrachtet werden.
-Lediglich aus den Metadaten wie \textit{Server\-Adresse} oder \textit{Paketgröße} können Annahmen über den Zweck der Verbindung getroffen werden.
+Lediglich aus den Metadaten wie \textit{Server-Adresse} oder \textit{Paketgröße} können Annahmen über den Zweck der Verbindung getroffen werden.
 
 
 Aus den Verbindungen zu den Servern
@@ -191,7 +191,7 @@ dass diese als Befehl aufgefasst wurden.
 
 Ob der Echo Dot auch im Ruhezustand Daten sendet und wenn ja an wen und was für Daten soll in diesem Abschnitt untersucht werden.
 
-Der Paktetmittschnitt zeigt Verbindungen zu Servern welche bereits bei Start des Echo Dot kontaktiert wurden.
+Der Paketmittschnitt zeigt Verbindungen zu Servern welche bereits bei Start des Echo Dot kontaktiert wurden.
 Zu den Servern \url{www.example.com} und \url{s3-1-w.amazonaws.com} wird vermutlich eine Verbindung aufgebaut um dein Oline-Status des Echo Dot zu prüfen und diesen an Amazon mitzuteilen.
 Außerdem wird eine Verbindung zu dem bereits bekannten Server \url{dp-gw-na.amazon.com} hergestellt.
 
@@ -240,11 +240,8 @@ das andere ein TLSv1.2-Paket mit 295 Bytes an \url{dp-gw-na.amazon.com}.
 Bezieht man nun noch mit ein, dass vom Echo Dot innnerhalb der fünf Minuten nur 66 Pakete gesendet wurden,
 dann kann davon ausgegangen werden, dass in dieser Zeit keine Sprachoakete gesendet wurden.
 
-
-
-
 \subsubsection{Erfragen des aktuellen Wetters}
-\todo[inline]{WEglassen, weil keine wirkliche Online-Verarbeitung gezeit wird?\\Oder besser so was wie Nachrichten?}
+\todo[inline]{Weglassen, weil keine wirkliche Online-Verarbeitung gezeit wird?\\Oder besser so was wie Nachrichten?}
 
 
 \subsection{Playstation 4}
@@ -265,7 +262,34 @@ Zum Einschalten wird der Befehl \texttt{ps4-waker -d 192.168.178.34 \\ -c \texta
 Der Befehl weist das Programm \textit{ps4-waker} dazu an sich mit der Playstation 4 unter der IP-Adresse \texttt{192.168.178.34} zu verbinden und dabei die Zugangsdaten in der angegebenen JSON-Datei zu nutzen.
 
 Das Ausschalten folgt nach einem ähnlichen Muster.
-In dem Befehl wird noch das Kommando \texttt{standby} angehängt, um die Playstation 4 auszuschalten (bzw. in den Ruhezustand zu versetzen.)
+In dem Befehl wird noch das Kommando \texttt{standby} angehängt,
+um die Playstation 4 auszuschalten (bzw. in den Ruhezustand zu versetzen). \\
+
+Auch anhand der jeweiligen Paketmittschnitte ist ein gemeinsames Muster zu erkennen.
+Der jeweilige Befehl wird mittels einer TCP-Verbindung Ausgeführt
+während parallel mehrere UDP-Pakete in beide Richtungen gesendet werden.
+Hierbei kommunizieren die beiden Geräte direkt miteinander.
+
+Laut dem Entwickler dienen die UDP dazu, zu prüfen, ob die \ac{ps4} bereit ist eine Verbindung anzunehmen.
+Hierzu werden zunächst zwei UDP-Pakete mit den in \autoref{lst:ps4-wakeup} gezeigten Daten
+und dann ein UDP-Paket mit in \autoref{lst:ps4-launch} gezeigten Daten.
+Das Feld \texttt{user-credential} (in den Listings gekürzt) ist hierbei immer gleich
+und wurde beim Initialen Verbindungsaufbau ermittelt.
+
+\lstinputlisting[
+    caption=Daten eines WAKEUP-Paketes,
+    label=lst:ps4-wakeup
+]{ps4_wakeup.udp}
+
+\lstinputlisting[
+    caption=Daten eines LAUNCH-Paketes,
+    label=lst:ps4-launch
+]{ps4_launch.udp}
+
+Der eigentliche Befehl wird dann in der auf die UDP-Pakete folgenden TCP-Verbindung ausgeführt.
+Zwar ist diese Verbindung nicht mit TLS verschlüsselt, die Daten können dennoch nicht ausgelesen werden.
+Die Ursache hierfür ist im Quellcode des \textit{ps4-waker} ersichtlich.
+Die Daten werden dort vor dem Senden auf Anwendungsebene verschlüsselt.
 
 \subsubsection{Ein- und Ausschalten über \textit{Harmony Hub}}
 Im Harmony Hub ist zur Nutzung der Playstation 4 eine Aktion konfiguriert.
