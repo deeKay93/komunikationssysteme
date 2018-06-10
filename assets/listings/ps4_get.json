@@ -1,0 +1,14 @@
+{
+    "1": {
+        "modelid": "HASS123",
+        "name": "Playstation",
+        "state": {
+            "bri": 0,
+            "on": false,
+            "reachable": true
+        },
+        "swversion": "123",
+        "type": "Dimmable light",
+        "uniqueid": "switch.playstation4"
+    }
+}

@@ -258,6 +258,8 @@ In \autoref{fig:hass-ui} ist der Schalter hervorgehoben, welcher für das Ein- u
     \caption{Weboberfläche des Home Assistant}\label{fig:hass-ui}
 \end{figure}
 
+\todo[inline]{Ausschaleten ausbauen zum kürzen}
+
 Zum Einschalten wird der Befehl \texttt{ps4-waker -d 192.168.178.34 \\ -c \textasciitilde{}/.homeassistant/.ps4-wake.credentials.json} über das \ac{cli} abgesetzt.
 Der Befehl weist das Programm \textit{ps4-waker} dazu an sich mit der Playstation 4 unter der IP-Adresse \texttt{192.168.178.34} zu verbinden und dabei die Zugangsdaten in der angegebenen JSON-Datei zu nutzen.
 
@@ -299,6 +301,77 @@ Zum Einschalten wird der durch den Home Assistant bereitgestelle Schalter genutz
 
 Ist die \ac{ps4} eingeschaltet, so kann der Hub eine Bluetooth-Verbindung aufbauen. Daher ist es zum Ausschalten nicht nötig den Home Assistant zu nutzen.
 Der Hub schlatet die Konsole direkt über die Bluetooth-Verbindung aus, sobald die Aktion beendet wird.
+
+In dem Paketmittschnitt sind mehrere TCP-Verbindungen zu erkennen.
+An der Kommunikation sind wie erwartet der Harmony Hub, \textit{Hassbian} und die \ac{ps4} beteiligt.
+Zusätzlich frägt der Harmony Hub per DNS die IP-Adresse von \url{home.myharmony.com} an.
+Als Antwort wird auf den server an mit der URL \url{home-myharmony.us-east-1.elasticbeanstalk.com} verwiesen.
+Interessant ist hierbei,
+dass es sich hierbei um einen von Amazon gehosteten Server für Webanwendungen handelt \cite{AWSElast48:online}.
+
+\textit{Hassbian} und die \ac{ps4} kommunizieren, wie bereits im vorigen Abschnitt untersucht, mittels TCP und UDP.
+Der Harmony Hub kommuniziert mit \textit{Hassbian} über HTTP.
+
+Der Ablauf der Kommunikation wird in \autoref{fig:ps-ein-harmony} vereinfacht dargestellt.
+Bei HTTP-Verbindungen wird lediglich das HTTP-Paket gezeigt, der TCP-Rahmen mit Verbindungsauf- und abbau wird nicht abgebildet.
+
+\begin{figure}[ht!]
+    \centering
+    \resizebox{\textwidth}{!}{
+        \input{assets/uml/ps-ein-harmony.latex}
+    }
+    \caption{Übersicht Kommunikation beim Einschalten der \ac{ps4} über Harmony Hub}
+    \label{fig:ps-ein-harmony}
+\end{figure}
+
+Der drei Verbindungen zum Server dienen vermutlich dazu Informationen über die gestartete Aktion mitzuteilen.
+Dadurch wird ermöglicht, dass auch beispielsweise in der Smartphone-App ersichtlich ist, welche Aktion gerade aktiv ist.
+
+Die Kommunikation zwischen \textit{Hassbian} und \ac{ps4} wurde bereits im vorigen Abschnitt betrachtet.
+Der Paketmittschnitt zeigt, dass dies, wie zu erwarten, nach dem gleichen Schema abläuft.
+
+Am Interessantesten ist in diesem Szenario die Kommunikation zwischen dem Harmony Hub und \textit{Hassbian}.
+Diese findet über diverse HTTP-Requests (eingebettet in jeweils einer TCP-Verbindung) statt.
+Diese Requests sprechen die emulierte \textit{Hue Bridge} über deren \ac{api} an.
+Hierbei sind zwei unterschiedliche Requests zu erkennen:
+\begin{description}
+    \item[PUT]
+        Der PUT-Request wird an die Adresse \url{http://192.168.178.45:8300/api/12345678901234567890/lights/1/state} gesendet.
+        Der Server ist hier der \textit{Hassbian}, welcher an Port 8300 Befehle an die \textit{Hue Bridge} entgengennimmt.
+        \texttt{/api/12345678901234567890/lights/1} wählt das zu kontrollierende Gerät aus.
+        Wie in Kapitel \ref{sec:aufbau-hassbian} \textit{\nameref{sec:aufbau-hassbian}} beschrieben werden die Geräte nach außen hin als Lichter präsentiert.
+        Als Nutzdaten enthält das Paket die \autoref{lst:ps4_on} gezeigten daten im JSON-Format.
+        \lstinputlisting[
+            caption=Nutzdaten PUT-Request,
+            label=lst:ps4_on,
+            language=json
+        ]{ps4_on.json}
+        Für diesen Anwendungsfall ist einzig der Wert \lstinline[language=json]{"on": true} von Relevanz.
+        Mit dem Wert \lstinline[language=json]{"x,y"} könnte bei echten Lampen die Farbe
+        und mit dem Wert \lstinline[language=json]{"bri"} die Helligkeit gesteuert werden \cite{Coreconc26:online}.
+    \item[GET]
+        Der GET-Request wird an die Adresse \url{http://192.168.178.45/api/12345678901234567890/lights} gesendet.
+        Er dienst dazu Informationen zu den Geräten zu erfragen.
+        Die Anfrage enthält keine weiteren Nutzdaten.
+        Die Response hingehen entählt als Nutzdaten eine Auflistung aller verfügbaren Geräte mit deren Zustand.
+        Eine gekürztes Beispiel ist in \autoref{lst:ps4_get} zu sehen.
+        \lstinputlisting[
+            caption=Nutzdaten GET-Response (gekürzt),
+            label=lst:ps4_get,
+            language=json
+        ]{ps4_get.json}
+\end{description}
+
+Auffallend an den HTTP-Paketen ist,
+dass sie ohne jegliche sicherheitstechnische Maßnahmen versendet werden.
+Weder Integriät noch Vertraulichkeit sind gesichert.
+Somit kann ein Angreifer, der sich im internen Netzwerk befindet,
+sowohl die gesendeten Geräte passiv mitlesen und erfähr so,
+welche Geräte im Netzwerk gesteuert werden.
+Weitaus schlimmer ist jedoch, dass er die Anfragen auch selbst stellen kann.
+Zum Einen muss er dann nicht (ggf. aufwändig) das Netzwerk belauschen
+und zum Anderen kann er auf diesem Weg auch Geräte selbst steuern.
+
 
 \subsubsection{Ein- und Ausschalten über \textit{Echo Dot}}
 Das Ein- bzw. Ausschalten der Playstation über den Echo Dot fügt dem Prozess eine weitere Abstraktionssutfe hinzu.

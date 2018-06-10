@@ -1,0 +1,44 @@
+@startuml ps-ein-harmony
+skinparam componentStyle uml2
+skinparam monochrome true
+
+participant "home.myharmony.com" as mh
+participant "Harmony Hub" as hu
+participant "Hassbian" as ha
+participant "PS4" as p
+
+
+p -> ha : Mehrere UDP-Pakete
+hu -> ha: HTTP-PUT-Request (unbeantwortet)
+hu -> mh : Verbindunsaufbau & TLS-Handhaske
+activate mh
+
+ha -> p : UDP-Pakete zum Starten
+
+mh -> hu : Schließen der Verbindung
+deactivate mh
+
+
+hu -> ha: HTTP-GET-Request (unbeantwortet)
+
+ha -> p : Aufbau der TCP-Verbindung
+activate p
+
+hu -> ha: HTTP-GET-Request
+activate ha
+ha -> hu: HTTP-Response
+deactivate ha
+
+ha -> p : Schließen der TCP-Verbindung
+deactivate p
+
+hu -> mh : Verbindunsaufbau & TLS-Handhaske
+activate mh
+mh -> hu : Schließen der Verbindung
+deactivate mh
+hu -> mh : Verbindunsaufbau & TLS-Handhaske
+activate mh
+mh -> hu : Schließen der Verbindung
+deactivate mh
+
+@enduml
