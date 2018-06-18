@@ -18,15 +18,7 @@ package "Raspberry Pi - Hassbian" {
 btPs4 - [Playstation 4]
 lanPs4 <--[PS4-waker]
 
-interface "Bluetooth" as btKodi
-package "Raspberry Pi - Mediacenter" {
-  [Kodi] -- btKodi
-  interface "LAN" as lanKodi
-  lanKodi - [Kodi]
-}
 package "Smartphone" {
-  ' [Kore] -> lanKodi
-  lanKodi <-- [Kore]
   [Harmony App] --> harmonyIn
 }
 
@@ -36,6 +28,5 @@ harmonyIn <-- [Echo Dot]
 harmonyIn - [Harmony Hub]
 [Harmony Hub] -> btPs4
 [Harmony Hub] --> lanHass
-btKodi <-- [Harmony Hub]
 
 @enduml

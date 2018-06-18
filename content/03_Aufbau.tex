@@ -25,7 +25,7 @@ In beiden Fällen ist hierzu das bei Bluetooth-Geräten übliche \enquote{Pairin
 Außerdem ist de Hub an den zweiten Raspberry Pi (gennant \textit{Hassbian}, da dort das Betriebssystem genutzt wird) per LAN angeschlossen.
 Diese besondere Schnittstelle wird später im Detail betrachtet.
 
-\subsection{Raspberry Pi - Hassbian}\label{sec:aufbau-hassbian}
+\subsection{Raspberry Pi / Hassbian}\label{sec:aufbau-hassbian}
 Auf diesem Raspberry Pi ist das Betriebssytem \textit{Hassbian} installiert.
 Das darin enthaltene Home Assistant emuliert die sogennante \enquote{Hue Bridge} \cite{Emulated83:online}.
 Eigentlich ist die Hue Brige zentraler Bestandteil des smarten Lampensystems der Marke Phillips \cite{HueBridg65:online}.
@@ -40,15 +40,3 @@ Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub berei
 Die Playstation lässt sich zwar per Bluetooth steuern, allerdings lässt sie sich auf diesem Weg nicht einschalten.
 Das Programm \textit{ps4-waker} hingegen erlaubt es die \ac{ps4} ein- sowie auszuschalten und sogar bestimmte Anwndungen zu starten.
 \todo[inline]{Details für PS4-waker? z.B. Prüfung, ob PS4 ein}
-
-\subsection{Raspberry Pi - Mediacenter}\label{sec:aufbau-mediacenter}
-Dieser Raspberry Pi wird durch \textit{Raspbian} betrieben.
-Hierbei ist das Programm \textit{Kodi} als Anwendung installiert.
-Insgesamt wird das Programm über zwei Schnittstellen gesteuert.
-
-Einerseits bietet das Programm selbst eine LAN-Schnittstelle.
-In diesem Projekt wird diese über die Smartphone-App \textit{Kore} genutzt.
-
-Andererseits kann \textit{Kodi} auch von Geräten gesteuert werden, welche an den Raspberry Pi direkt angeschlossen sind.
-Dies kann eine klassische Tastatur oder (wie in diese Projekt) über Bluetooth angeschlossenes Gerät sein.
-Der Harmony Hub funktioniert hierbei ähnlich wie eine Bluetooth-Tastatur.
