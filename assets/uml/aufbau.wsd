@@ -22,9 +22,6 @@ package "Smartphone" {
   [Harmony App] --> harmonyIn
 }
 
-
-harmonyIn <-- [Echo Dot]
-
 harmonyIn - [Harmony Hub]
 [Harmony Hub] -> btPs4
 [Harmony Hub] --> lanHass
