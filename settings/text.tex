@@ -38,6 +38,7 @@
 % Quellcode
 \usepackage{listings}
 \usepackage{float}
+\usepackage{textcomp}
 \lstset{
     inputpath=assets/listings,
     language=Java,			% Standardsprache des Quellcodes
@@ -64,7 +65,8 @@
     keywordstyle=\color[rgb]{0.133,0.133,0.6},
     commentstyle=\color[rgb]{0.133,0.545,0.133},
     stringstyle=\color[rgb]{0.627,0.126,0.941},
-    float
+    float,
+    upquote=true
 }
 
 
@@ -94,4 +96,14 @@
       {]}{{{\color{delim}{]}}}}{1}
 }
 
-\lstloadlanguages{Python,Java}
+\lstdefinelanguage{yaml}{
+  identifierstyle=\color{delim},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{numb},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstloadlanguages{Python,Java,bash}

@@ -25,8 +25,9 @@
 \begin{document}
 
 
-% \input{additionals/simpleTitle}
-\input{additionals/deckblatt}
+\input{additionals/simpleTitle}
+\input{additionals/abstract}
+%\input{additionals/deckblatt}
 
 \pagenumbering{Roman}
 
@@ -38,21 +39,15 @@
 \input{additionals/erklaerung}
 \newpage
 
-
-\input{additionals/abstract}
-\newpage
-
 \pagestyle{plain}		% nur Seitenzahlen im Fuß
 
 % Inhaltsverzeichnis
 \begin{spacing}{1.1}
     \begingroup
-        \pagestyle{empty}
         %für die Anzeige von Unterkapiteln im Inhaltsverzeichnis
         \setcounter{tocdepth}{2}
 
         \tableofcontents
-        \clearpage
     \endgroup
 \end{spacing}
 \newpage

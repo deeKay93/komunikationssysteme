@@ -1,0 +1,6 @@
+playstation4:
+  friendly_name: "Playstation"
+  command_on: 'ps4-waker -d 192.168.178.34 -c  ~/.homeassistant/.ps4-wake.credentials.json'
+  command_off: 'ps4-waker -d 192.168.178.34 -c  ~/.homeassistant/.ps4-wake.credentials.json standby'
+  command_state: 'ps4-waker -c ~/.homeassistant/.ps4-wake.credentials.json search -d 192.168.178.34'
+  value_template: '{{ value_json.statusCode == "200" }}'
