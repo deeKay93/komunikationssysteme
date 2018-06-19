@@ -33,7 +33,8 @@ In Home Assistant wird die emulierte Bridge genutzt, um eine Verbindung zum Harm
 Home Assistant stellt hierzu sogennante \textit{Schalter} bereit, welche über die \textit{Hue API} an den Harmony Hub als Lichter präsentiert werden.
 Aus Sicht des Hubs kommuniziert er mit einer \enquote{normalen} Hue Bridge.
 Jedoch lassen sich über die Schalter mehr als nur Lichter steuern.
-Eine weitere Möglichkeit ist das in diesem Projekt genutzte Ausführen von Kommandozeilenbefehlen über eine entsprechende Schnittstelle (\ac{cli}).
+Eine weitere Möglichkeit ist das in diesem Projekt genutzte Ausführen von Kommandozeilenbefehlen über eine entsprechende Schnittstelle (\ac{cli})
+indem hierfür spezielle Schlater konfiguriert werden.
 
 Das \ac{cli} wird genutzt, um die Playstation 4 unter Nutzung des Programms \textit{ps4-waker}\cite{dhleongp12:online} zu steuern.
 Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub bereits eine direkte Verbindung zur Playstation 4 besitzt?
@@ -54,11 +55,11 @@ Die Zugangsdaten werden zuvor durch folgendes Pairing-Verfahren ermittelt:
     \item Die so erhaltenen Zugangsdaten werden in einer JSON-Datei gespeichert.
 \end{enumerate}
 
-
 Der Home Assistant wird so konfiguriert,
 dass die Befehle des \textit{ps4-waker} über einen Schalter ausgeführt werden können.
 In \autoref{lst:ps4_switch} ist die Konfiguration des Schalters dargestellt,
 welcher zum Ein- und Ausschalten der Playstation 4 dient.
+Der Schalter wiederum ist automatisch durch die emulierte \textit{Hue Bridge} als Leuchte zugänglich.
 
 \lstinputlisting[
     caption=Konfiguration des Schalters,
@@ -89,3 +90,26 @@ Ist dies der Fall, so gilt der Schalter als eingeschaltet, andernfalls als ausge
 Je nach aktuellem Status des Schalters führt ein betättigen dazu, dass der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_on} zum einschalten
 oder der unter \lstinline[language=yaml]{command_off} zum Ausschalten ausgeführt wird.
 Beides wird über die jeweiligen Befehle von \textit{ps4-waker} umgesetzt.
+
+\subsection{Netzadressen}\label{sec:aufbau-adressen}
+Alle Geräte befinden sich im gleichen lokalen Netzwerk.
+Die folgende Tabelle zeigt die jeweiligen IP- und MAC-Adressen anhand welcher die
+späteren Paketmitschnitte analysiert werden.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{l||c|c}
+        Gerät           & IP-Adresse      &  MAC-Adresse          \\
+        \hline
+        \hline
+        Smartphone      & \texttt{192.168.178.43}  &  \texttt{40:4E:36:1E:BF:D1}  \\
+        \hline
+        Harmony Hub     & \texttt{192.168.178.21}  &  \texttt{C8:DB:26:00:D0:E9}  \\
+        \hline
+        Raspberry Pi    & \texttt{192.168.178.45}  &  \texttt{B8:27:EB:9F:0E:FE}  \\
+        \hline
+        Playstation     & \texttt{192.168.178.34}  &  \texttt{80:EA:23:19:B6:5C}   \\
+    \end{tabular}
+    \caption{IP- und MAC-Adressen der Komponenten}
+    \label{ex:netzadressen}
+\end{table}
