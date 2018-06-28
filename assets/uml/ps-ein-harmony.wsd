@@ -8,35 +8,50 @@ participant "Hassbian" as ha
 participant "PS4" as p
 
 
-p -> ha : Mehrere UDP-Pakete
-hu -> ha: HTTP-PUT-Request (unbeantwortet)
-hu -> mh : Verbindunsaufbau & TLS-Handhaske
+hu -> ha: HTTP-GET-Request
+activate ha
+ha -> hu: HTTP-Response
+deactivate ha
+
+hu -> ha: HTTP-PUT-Request
+activate ha
+
+hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
 activate mh
 
-ha -> p : UDP-Pakete zum Starten
+ha -> hu: HTTP-Response
+deactivate ha
+
+
+ha -> p : WAKEUP-Paket
 
 mh -> hu : Schließen der Verbindung
 deactivate mh
 
-
-hu -> ha: HTTP-GET-Request (unbeantwortet)
-
-ha -> p : Aufbau der TCP-Verbindung
-activate p
 
 hu -> ha: HTTP-GET-Request
 activate ha
 ha -> hu: HTTP-Response
 deactivate ha
 
-ha -> p : Schließen der TCP-Verbindung
+ha -> p : WAKEUP-Paket
+ha -> p : LAUNCH-Paket
+
+ha -> p : Aufbau der\nTCP-Verbindung
+activate p
+ha -> p : Schließen der\nTCP-Verbindung
 deactivate p
 
-hu -> mh : Verbindunsaufbau & TLS-Handhaske
+hu -> ha: HTTP-GET-Request
+activate ha
+ha -> hu: HTTP-Response
+deactivate ha
+
+hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
 activate mh
 mh -> hu : Schließen der Verbindung
 deactivate mh
-hu -> mh : Verbindunsaufbau & TLS-Handhaske
+hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
 activate mh
 mh -> hu : Schließen der Verbindung
 deactivate mh

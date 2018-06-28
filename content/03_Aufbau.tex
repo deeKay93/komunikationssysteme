@@ -17,7 +17,7 @@ Zur Wahrung der Übersichtlichkeit sind lediglich die abstrakten Verbindungen au
 \subsection{Harmony Hub}\label{sec:aufbau-hub}
 Zentrales Element ist der Harmony Hub.
 Er selbst ist über WLAN mit dem Heimnetzwerk verbunden.
-Angesteuert wird der Harmony Hub per LAN von der auf dem Smartphone installierten App.
+Angesteuert wird der Harmony Hub per Funk über die Fernbedienung.
 
 Der Hub ist an die Playstation 4 über Bluetooth als Fernbedienung angeschlossen.
 Hierzu ist im Vorfeld das bei Bluetooth-Geräten übliche \enquote{Pairing} notwendig.
@@ -82,14 +82,16 @@ ob das Feld \lstinline[language=json]{"statusCode"} den Wert
 Ist dies der Fall, so gilt der Schalter als eingeschaltet, andernfalls als ausgeschaltet.
 
 \lstinputlisting[
-    caption=Antwoort von \textit{ps4-waker search}-Befehl (gekürzt),
+    caption=Antwort von \textit{ps4-waker search}-Befehl (gekürzt),
     label=lst:ps4-waker_search,
     language=json
 ]{ps4-waker_search.json}
 
-Je nach aktuellem Status des Schalters führt ein betättigen dazu, dass der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_on} zum einschalten
+Je nach aktuellem Status des Schalters führt ein betättigen dazu, dass der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_on} zum Einschalten
 oder der unter \lstinline[language=yaml]{command_off} zum Ausschalten ausgeführt wird.
 Beides wird über die jeweiligen Befehle von \textit{ps4-waker} umgesetzt.
+
+\todo[inline]{Beschreibung befehle inkl. Ähnlichkeit}
 
 \subsection{Netzadressen}\label{sec:aufbau-adressen}
 Alle Geräte befinden sich im gleichen lokalen Netzwerk.
@@ -101,8 +103,6 @@ späteren Paketmitschnitte analysiert werden.
     \begin{tabular}{l||c|c}
         Gerät           & IP-Adresse      &  MAC-Adresse          \\
         \hline
-        \hline
-        Smartphone      & \texttt{192.168.178.43}  &  \texttt{40:4E:36:1E:BF:D1}  \\
         \hline
         Harmony Hub     & \texttt{192.168.178.21}  &  \texttt{C8:DB:26:00:D0:E9}  \\
         \hline

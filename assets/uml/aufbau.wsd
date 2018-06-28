@@ -4,7 +4,6 @@ skinparam monochrome true
 
 interface "LAN" as lanPs4
 interface "Bluetooth" as btPs4
-interface "LAN*" as harmonyIn
 
 package "Raspberry Pi - Hassbian" {
   interface "CLI" as cliPs4W
@@ -18,11 +17,6 @@ package "Raspberry Pi - Hassbian" {
 btPs4 - [Playstation 4]
 lanPs4 <--[PS4-waker]
 
-package "Smartphone" {
-  [Harmony App] --> harmonyIn
-}
-
-harmonyIn - [Harmony Hub]
 [Harmony Hub] -> btPs4
 [Harmony Hub] --> lanHass
 
