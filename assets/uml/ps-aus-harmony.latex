@@ -47,7 +47,7 @@
 \node at (460.0856pt,100.7031pt)[below right,color=black]{(200 OK)};
 \draw[pstyle3] (109.6545pt,162.1387pt) -- (99.6545pt,166.1387pt) -- (109.6545pt,170.1387pt) -- (105.6545pt,166.1387pt) -- cycle;
 \draw[pstyle4] (103.6545pt,166.1387pt) -- (275.4285pt,166.1387pt);
-\node at (115.6545pt,131.1816pt)[below right,color=black]{Verbindunsaufbau \&};
+\node at (115.6545pt,131.1816pt)[below right,color=black]{Verbindungsaufbau \&};
 \node at (115.6545pt,147.6602pt)[below right,color=black]{TLS-Handhaske};
 \draw[pstyle3] (426.0856pt,192.6172pt) -- (436.0856pt,196.6172pt) -- (426.0856pt,200.6172pt) -- (430.0856pt,196.6172pt) -- cycle;
 \draw[pstyle4] (276.4285pt,196.6172pt) -- (432.0856pt,196.6172pt);

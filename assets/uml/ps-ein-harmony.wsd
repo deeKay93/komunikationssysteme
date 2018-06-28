@@ -16,7 +16,7 @@ deactivate ha
 hu -> ha: HTTP-PUT-Request
 activate ha
 
-hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
+hu -> mh : Verbindungsaufbau &\nTLS-Handhaske
 activate mh
 
 ha -> hu: HTTP-Response
@@ -47,11 +47,11 @@ activate ha
 ha -> hu: HTTP-Response
 deactivate ha
 
-hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
+hu -> mh : Verbindungsaufbau &\nTLS-Handhaske
 activate mh
 mh -> hu : Schließen der Verbindung
 deactivate mh
-hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
+hu -> mh : Verbindungsaufbau &\nTLS-Handhaske
 activate mh
 mh -> hu : Schließen der Verbindung
 deactivate mh

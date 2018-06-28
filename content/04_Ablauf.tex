@@ -10,7 +10,7 @@ Zur Untersuchung der Kommunikation zwischen der Geräten wird der Verkehr auf de
 \end{enumerate}
 
 Eine detaillierte Beschreibung der Szenarien folgt in Kapitel \ref{sec:durchfuehrung} \textit{\nameref{sec:durchfuehrung}}.
-Alle in den Szenarien betrachteten Verbindungen sind LAN-Verbindungen und werden über den zentralen Router des lokalen Netzwerk transportiert.
+Alle in den Szenarien betrachteten Verbindungen sind LAN-Verbindungen und werden über den zentralen Router des lokalen Netzwerks transportiert.
 Folglich ist dies auch eine nützliche Stelle um den anfallenden Verkehr mitzuschneiden.
 In diesem Fall handelt es sich bei dem Router um eine \textit{FRITZ!Box 7560}\cite{FRITZBox29:online}.
 Wie auch andere FRITZ!Boxen stellt diese unter der Adresse \nolinkurl{http://fritz.box/html/capture.html} eine Oberfläche bereit,
@@ -23,14 +23,14 @@ und in einem für das bekannte Tool \textit{Wireshark} lesbaren Format herunterz
     \caption{FRITZ!Box Weboberfläche für Paketmitschnitte}\label{fig:fribCapture}
 \end{figure}
 
-Diese Methode bringt zwei entscheidente Vorteile mit sich:
-Zum Einen läufte der gesamte Verkehr durch den Router, da alle Geräte per (W)LAN an diesen angeschlossen sind.
-Zum Anderen können dort die Pakete unkompliziert mitgeschnitten werden. Zugriff auf die zu betrachtenden Geräte
+Diese Methode bringt zwei entscheidende Vorteile mit sich:
+Zum einen läuft der gesamte Verkehr durch den Router, da alle Geräte per (W)LAN an diesen angeschlossen sind.
+Zum anderen können dort die Pakete unkompliziert mitgeschnitten werden. Zugriff auf die zu betrachtenden Geräte
 oder gar ein Umleiten des Verkehrs auf einen Computer, beispielsweise durch \textit{Spoofing}\cite{Maninthe12:online} sind nicht notwendig.
 
 Jedoch hat diese Methode auch einen Nachteil:
 Die Oberfläche für Paketmitschnitte ist nicht für den allgemeinen Nutzer,
-sondern eigentlich zur Unterstützung des Supports bei kopmplexen Problemen bestimmt.
+sondern eigentlich zur Unterstützung des Supports bei komplexen Problemen bestimmt.
 Daher wird die Seite auch nicht detailliert dokumentiert.
 Lediglich eine kurze Anleitung wie solle Paketmitschnitte gestartet und gestoppt werden befindet sich im oberen Bereich der Seite.
 Die in \autoref{fig:fribCapture} zu sehenden zahlreichen Schnittstellen werden nicht näher spezifiziert.
@@ -44,15 +44,16 @@ dass in dem Mitschnitt von \texttt{ath0} alle Pakete der zu betrachtenden Kompon
 Der Mitschnitt von \texttt{lan} enthält zwar auch alle Pakete der zu betrachtenden Komponenten.
 Enthält jedoch auch viele andere Pakete was zu einem erhöhten Overhead führt.
 
-Der Mitschnitt der \textit{Routing-Schnittstelle} enthält lediglich Pakete welche vom Router an das Internet gesendet oder aus diesem Empfangenw werden.
+Der Mitschnitt der \textit{Routing-Schnittstelle} enthält lediglich Pakete welche vom Router an das Internet gesendet
+oder aus diesem empfangen werden.
 Diese Schnittstelle ist daher für den lokalen Verkehr ungeeignet.\\
 
-Das Erfassen der Pakete für eines der Szenarion folgt folgendem Muster:
+Das Erfassen der Pakete für eines der Szenarien folgt folgendem Muster:
 \begin{enumerate}
     \setlength\itemsep{-0.5em}
     \item Starten des Paketmittschnitts auf \texttt{ath0}
     \item Durchführen des Szenarios
-    \item Beeenden des Paketmittschnitts
+    \item Beenden des Paketmittschnitts
     \item Öffnen des Mitschnitts mit \textit{Wireshark} und filtern der relevanten Pakete
     \item Speichern des gefilterten Mitschnitts zur späteren Analyse
 \end{enumerate}

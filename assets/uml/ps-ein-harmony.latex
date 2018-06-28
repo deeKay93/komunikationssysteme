@@ -57,7 +57,7 @@
 \node at (283.4285pt,114.7031pt)[below right,color=black]{HTTP-PUT-Request};
 \draw[pstyle3] (109.6545pt,176.1387pt) -- (99.6545pt,180.1387pt) -- (109.6545pt,184.1387pt) -- (105.6545pt,180.1387pt) -- cycle;
 \draw[pstyle4] (103.6545pt,180.1387pt) -- (275.4285pt,180.1387pt);
-\node at (115.6545pt,145.1816pt)[below right,color=black]{Verbindunsaufbau \&};
+\node at (115.6545pt,145.1816pt)[below right,color=black]{Verbindungsaufbau \&};
 \node at (115.6545pt,161.6602pt)[below right,color=black]{TLS-Handhaske};
 \draw[pstyle3] (287.4285pt,206.6172pt) -- (277.4285pt,210.6172pt) -- (287.4285pt,214.6172pt) -- (283.4285pt,210.6172pt) -- cycle;
 \draw[pstyle4] (281.4285pt,210.6172pt) -- (426.6211pt,210.6172pt);
@@ -96,14 +96,14 @@
 \node at (293.4285pt,529.8809pt)[below right,color=black]{HTTP-Response};
 \draw[pstyle3] (109.6545pt,591.3164pt) -- (99.6545pt,595.3164pt) -- (109.6545pt,599.3164pt) -- (105.6545pt,595.3164pt) -- cycle;
 \draw[pstyle4] (103.6545pt,595.3164pt) -- (275.4285pt,595.3164pt);
-\node at (115.6545pt,560.3594pt)[below right,color=black]{Verbindunsaufbau \&};
+\node at (115.6545pt,560.3594pt)[below right,color=black]{Verbindungsaufbau \&};
 \node at (115.6545pt,576.8379pt)[below right,color=black]{TLS-Handhaske};
 \draw[pstyle3] (264.4285pt,621.7949pt) -- (274.4285pt,625.7949pt) -- (264.4285pt,629.7949pt) -- (268.4285pt,625.7949pt) -- cycle;
 \draw[pstyle4] (93.6545pt,625.7949pt) -- (270.4285pt,625.7949pt);
 \node at (100.6545pt,607.3164pt)[below right,color=black]{Schließen der Verbindung};
 \draw[pstyle3] (109.6545pt,668.752pt) -- (99.6545pt,672.752pt) -- (109.6545pt,676.752pt) -- (105.6545pt,672.752pt) -- cycle;
 \draw[pstyle4] (103.6545pt,672.752pt) -- (275.4285pt,672.752pt);
-\node at (115.6545pt,637.7949pt)[below right,color=black]{Verbindunsaufbau \&};
+\node at (115.6545pt,637.7949pt)[below right,color=black]{Verbindungsaufbau \&};
 \node at (115.6545pt,654.2734pt)[below right,color=black]{TLS-Handhaske};
 \draw[pstyle3] (264.4285pt,699.2305pt) -- (274.4285pt,703.2305pt) -- (264.4285pt,707.2305pt) -- (268.4285pt,703.2305pt) -- cycle;
 \draw[pstyle4] (93.6545pt,703.2305pt) -- (270.4285pt,703.2305pt);

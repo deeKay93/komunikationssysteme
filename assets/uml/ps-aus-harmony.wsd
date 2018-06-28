@@ -12,7 +12,7 @@ ha -> p : SRCH-Paket
 p -> ha : Status-Paket\n(200 OK)
 
 
-hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
+hu -> mh : Verbindungsaufbau &\nTLS-Handhaske
 activate mh
 
 hu -> ha: HTTP-GET-Request

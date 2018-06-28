@@ -2,23 +2,23 @@
 \section{Fazit}\label{sec:fazit}
 
 Die gesamte (IP-)Netzwerkkommunikation findet auf Basis der Protokolle TCP und UDP statt.
-Während die UDP-Pakete unveschlüsstelt sind,
+Während die UDP-Pakete unverschlüsselt sind,
 werden die TCP-Pakete, welche auch außerhalb des lokalen Netzwerks übertragen werden,
 mit dem Standard TLS verschlüsselt.
 
 Die UPD- und TCP-Pakete, welche im lokalen Netz verbleiben, werden allerdings nicht mit TLS geschützt.
-Weder Integriät noch Vertraulichkeit sind gesichert.
+Weder Integrität noch Vertraulichkeit sind gesichert.
 Somit kann ein Angreifer, der sich im internen Netzwerk befindet,
-die gesendeten Pakete passiv mitlesen und erfähr so,
+die gesendeten Pakete passiv mitlesen und erfährt so,
 welche Geräte im Netzwerk über den Home Assistant und die emulierte Hue Brige gesteuert werden.
 Weitaus schlimmer ist jedoch, dass er die Anfragen auch selbst stellen kann.
-Zum Einen muss er dann nicht (ggf. aufwändig) das Netzwerk belauschen
-und zum Anderen kann er auf diesem Weg auch Geräte selbst steuern.
+Zum einen muss er dann nicht (ggf. aufwändig) das Netzwerk belauschen
+und zum anderen kann er auf diesem Weg auch Geräte selbst steuern.
 Für Privatanwender ist dies zwar eine potentielle Bedrohung,
 allerdings ist davon auszugehen, dass ein Angreifer im internen Netz eher unwahrscheinlich ist.
-Außerdem hält sich in diesem Aufbau der Schaden in Grenzen, da nur Geräte ein- bzw. ausgeschlatet werden.
+Außerdem hält sich in diesem Aufbau der Schaden in Grenzen, da nur Geräte ein- bzw. ausgeschaltet werden.
 Würde man auf gleiche Art und Weise ein Türschloss oder ähnliches kontrollieren erhöht das jedoch durch einen
 möglichen Einbruch den potentiellen Schaden.
 
-Die weitere TCP-Verbdinung zwischen Raspberry-Pi und Playstation 4 ist zwar nicht über TLS,
+Die weitere TCP-Verbindung zwischen Raspberry-Pi und Playstation 4 ist zwar nicht über TLS,
 dafür aber auf Anwendungsebene verschlüsselt.
