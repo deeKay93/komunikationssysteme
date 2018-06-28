@@ -144,8 +144,10 @@ Zum Einschalten wird der durch den Home Assistant bereitgestelle Schalter genutz
 
 Ist die \ac{ps4} eingeschaltet, so kann der Hub eine Bluetooth-Verbindung aufbauen.
 Daher ist es zum Ausschalten nicht nötig den Home Assistant zu nutzen.
-Der Hub schlatet die Konsole direkt über die Bluetooth-Verbindung aus, sobald die Aktion beendet wird.
+Der Hub schaltet die Konsole direkt über die Bluetooth-Verbindung aus,
+sobald die Aktion beendet wird.
 
+\subsubsection{Einschalten}
 In dem Paketmittschnitt sind mehrere TCP-Verbindungen zu erkennen.
 An der Kommunikation sind wie erwartet der Harmony Hub, \textit{Hassbian} und die \ac{ps4} beteiligt.
 Zusätzlich frägt der Harmony Hub per DNS die IP-Adresse von \nolinkurl{home.myharmony.com} an.
@@ -162,19 +164,47 @@ der TCP-Rahmen mit Verbindungsaufbau und -abbau wird nicht abgebildet.
 Außerdem fehlen in der Abbildung die UDP-Pakete,
 welche von \textit{Hassbian} genutzt werden,
 um den Status der \ac{ps4} zu Erfragen.
-
-\begin{figure}[ht!]
+\begin{figure}
     \centering
     \resizebox{\textwidth}{!}{
         \input{assets/uml/ps-ein-harmony.latex}
     }
-    \caption{Kommunikation beim Einschalten der \ac{ps4} über Harmony Hub}
+    \caption{Kommunikation beim Einschalten}
     \label{fig:ps-ein-harmony}
 \end{figure}
 
+\newpage
+
+
+
 \paragraph{Harmony Hub und Webserver}
-Die drei Verbindungen zum Server dienen vermutlich dazu Informationen über die gestartete Aktion mitzuteilen.
-Dadurch wird ermöglicht, dass auch beispielsweise in der Smartphone-App ersichtlich ist, welche Aktion gerade aktiv ist.
+Die Verbindungen zum Server dienen vermutlich dazu Informationen über die gestartete Aktion mitzuteilen.
+Bei genauerer Betrachtung eines Paketes, welches vom Harmony Hub an den Webserver gesendet wird,
+sind verschiedene Besonderheiten zu erkennen.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{internet-paket}
+    \caption{Paket von Harmony Hub an Webserver}\label{fig:internet-paket}
+\end{figure}
+
+
+\autoref{fig:internet-paket} zeigt die verschiedenen Protokoll-Header, welche ineinander geschachtelt sind.
+Die oberste Zeile (\textit{Frame}) steht für das gesamte Paket.
+In der zweiten Zeile steht die äußerste Paket-Schicht \textit{Ethernet II}.
+Deren Quelladresse ist wie zu erwarten die MAC-Adersse des Harmony Hub.
+Als Zieladresse ist jedoch nicht die MAC-Adresse der Webservers,
+sondern die der FritzBox angegeben. Dies liegt daran, dass Ethernet lediglich zur Kommunikation im loklen Netzt verwendet wird.
+Das Paket wird per Ehternet an die FritzBox gesendet.
+Dort wird die \enquote{Ethernet-Nutzlast} (das IP-Paket inklusive TCP) entpackt und über \textit{IPv4} an das eigentliche Ziel weitergeleitet.
+Dieses ist als Zieladresse in IP-Header angegeben.
+
+Da die Verbindung an sich verschlüsselt ist, lassen sich aus den übertragenen Daten keine Informationen gewinnen.
+Der Zielport des TCP-Headers liefert jedoch einen Hinweis auf die Methode der Übertragung.
+Der Port \textit{443} wird standardmäßig für \textit{HTTPS}-Verbindungen genutzt.
+Daraus und aus der Tatsache, dass die Verbindung mittels TLS verschlüsselt ist,
+lässt sich mit hoher Wahrscheinlichkeit schließen, dass tatsächlich \textit{HTTPS} genutzt wird.
+
 
 \paragraph{Hassbian und Playstation 4}
 Die Kommunikation zwischen \textit{Hassbian} und \ac{ps4} wurde bereits im vorigen Abschnitt betrachtet.
@@ -189,24 +219,50 @@ Dieser Request wird an die Adresse \nolinkurl{http://192.168.178.45:8300/api/123
 Der Server ist hier der \textit{Hassbian}, welcher an Port 8300 Befehle an die \textit{Hue Bridge} entgengennimmt.
 \texttt{/api/12345678901234567890/lights/1} wählt das zu kontrollierende Gerät aus.
 Wie in Kapitel \ref{sec:aufbau-hassbian} \textit{\nameref{sec:aufbau-hassbian}} beschrieben, werden die Geräte nach außen hin als Lichter präsentiert.
-Als Nutzdaten enthält das Paket die \autoref{lst:ps4_on} gezeigten daten im JSON-Format.
+Als Nutzdaten enthält das Paket die \autoref{lst:ps4_on-request} gezeigten Daten im JSON-Format.
 \lstinputlisting[
     caption=Nutzdaten PUT-Request,
-    label=lst:ps4_on,
+    label=lst:ps4_on-request,
     language=json
-]{ps4_on.json}
+]{ps4_on-request.json}
 Für diesen Anwendungsfall ist einzig der Wert \lstinline[language=json]{"on": true} von Relevanz.
 Mit dem Wert \lstinline[language=json]{"x,y"} könnte bei echten Lampen die Farbe
 und mit dem Wert \lstinline[language=json]{"bri"} die Helligkeit gesteuert werden \cite{Coreconc26:online}.
 
-Auffallend an den HTTP-Paketen ist,
-dass sie ohne jegliche sicherheitstechnische Maßnahmen versendet werden.
-Weder Integriät noch Vertraulichkeit sind gesichert.
-Somit kann ein Angreifer, der sich im internen Netzwerk befindet,
-sowohl die gesendeten Geräte passiv mitlesen und erfähr so,
-welche Geräte im Netzwerk gesteuert werden.
-Weitaus schlimmer ist jedoch, dass er die Anfragen auch selbst stellen kann.
-Zum Einen muss er dann nicht (ggf. aufwändig) das Netzwerk belauschen
-und zum Anderen kann er auf diesem Weg auch Geräte selbst steuern.
+Die Antwort auf den PUT-Request enthält ebenfalls Daten im JSON-Format,
+um den Erfolg des Befehls mitzuteilen (siehe \autoref{lst:ps4_on-response}).
+\lstinputlisting[
+    caption=Nutzdaten PUT-Request,
+    label=lst:ps4_on-response,
+    language=json
+]{ps4_on-response.json}
 
-\todo[inline]{Ausschalten}
+
+\subsubsection{Ausschalten}
+
+Da zum Ausschalten der \ac{ps4} der \textit{Hassbian} nicht direkt genutzt wird,
+fällt die Netzwerkkommunikation hier deutlich sparsamer aus.
+
+Wieder kommuniziert der Harmony Hub verschlüsselt mit \nolinkurl{home.myharmony.com}.
+Außerdem wird der Status der Konsole vom Harmony Hub bei \textit{Hassbian} über die bereits bekannten GET-Requests
+und von \textit{Hassbian} bei der Konsole über die SRCH-UDP-Pakete erfragt.
+
+In \autoref{fig:ps-aus-harmony} ist der Ablauf dargestellt.
+Im Gegensatz zum vorigen Ablaufdiagramm sind hier die SRCH-UDP-Pakete abgebildet.
+Außerdem ist zu den Antworten auf die Statusanfrage notiert,
+ob die \ac{ps4} zu diesem Zeitpunkt ein- oder ausgeschaltet ist.
+
+
+\begin{figure}[ht!]
+    \centering
+    \resizebox{\textwidth}{!}{
+        \input{assets/uml/ps-aus-harmony.latex}
+    }
+    \caption{Kommunikation beim Ausschalten}
+    \label{fig:ps-aus-harmony}
+\end{figure}
+
+Aus dem Ablauf ist zu erkennen,
+dass die Konsole zwischen dem zweiten GET- und dem zweiten SRCH-Paket ausgeschaltet wurde.
+Da dies über einen anderen Kanal (Bluetooth) geschieht,
+finden sich im Paketmittschnitt zum Ausschalten selbst keine Nachrichten.

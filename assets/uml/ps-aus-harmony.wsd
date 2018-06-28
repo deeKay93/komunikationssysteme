@@ -1,0 +1,41 @@
+@startuml ps-aus-harmony
+skinparam componentStyle uml2
+skinparam monochrome true
+
+participant "home.myharmony.com" as mh
+participant "Harmony Hub" as hu
+participant "Hassbian" as ha
+participant "PS4" as p
+
+
+ha -> p : SRCH-Paket
+p -> ha : Status-Paket\n(200 OK)
+
+
+hu -> mh : Verbindunsaufbau &\nTLS-Handhaske
+activate mh
+
+hu -> ha: HTTP-GET-Request
+activate ha
+
+ha -> hu: HTTP-Response (an)
+deactivate ha
+
+mh -> hu : Schließen der Verbindung
+deactivate mh
+
+
+hu -> ha: HTTP-GET-Request
+activate ha
+ha -> hu: HTTP-Response (an)
+deactivate ha
+
+ha -> p : SRCH-Paket
+p -> ha : Status-Paket\n(620 Server Standby)
+
+hu -> ha: HTTP-GET-Request
+activate ha
+ha -> hu: HTTP-Response (aus)
+deactivate ha
+
+@enduml
