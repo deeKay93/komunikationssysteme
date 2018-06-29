@@ -1,24 +1,39 @@
 \newpage
+
 \section{Fazit}\label{sec:fazit}
 
-Die gesamte (IP-)Netzwerkkommunikation findet auf Basis der Protokolle TCP und UDP statt.
-Während die UDP-Pakete unverschlüsselt sind,
-werden die TCP-Pakete, welche auch außerhalb des lokalen Netzwerks übertragen werden,
-mit dem Standard TLS verschlüsselt.
+Zwischen vielen Geräten wird zur Kommunikation der Standard HTTP,
+bzw. bei der Kommunikation nach Außen sogar HTTPS verwendet.
 
-Die UPD- und TCP-Pakete, welche im lokalen Netz verbleiben, werden allerdings nicht mit TLS geschützt.
-Weder Integrität noch Vertraulichkeit sind gesichert.
+Erfreulicherweiße ist die Kommunikation mit dem Webserver im Internet damit durch TLS geschützt.
+
+Die interne Kokmmunikation mit der emulierten \textit{Hue Brige} hingegen ist nicht geschützt.
+Weder Integrität noch Vertraulichkeit sind damit gesichert.
 Somit kann ein Angreifer, der sich im internen Netzwerk befindet,
-die gesendeten Pakete passiv mitlesen und erfährt so,
-welche Geräte im Netzwerk über den Home Assistant und die emulierte Hue Brige gesteuert werden.
-Weitaus schlimmer ist jedoch, dass er die Anfragen auch selbst stellen kann.
+die gesendeten Pakete passiv mitlesen.
+Dadurch erfährt er,
+welche Geräte im Netzwerk über den \textit{Home Assistant} und die emulierte \textit{Hue Brige} gesteuert werden.
+
+Weitaus schlimmer ist jedoch, dass er die GET- und POST-Requests auch selbst stellen kann.
 Zum einen muss er dann nicht (ggf. aufwändig) das Netzwerk belauschen
 und zum anderen kann er auf diesem Weg auch Geräte selbst steuern.
-Für Privatanwender ist dies zwar eine potentielle Bedrohung,
-allerdings ist davon auszugehen, dass ein Angreifer im internen Netz eher unwahrscheinlich ist.
-Außerdem hält sich in diesem Aufbau der Schaden in Grenzen, da nur Geräte ein- bzw. ausgeschaltet werden.
+
+Für Privatanwender ist dies eine potentielle Bedrohung,
+Allerdings ist davon auszugehen,
+dass ein Angreifer im internen Netz aufgrund der überschaubaren Größe eher unwahrscheinlich ist.
+Außerdem hält sich in diesem Beispiel der Schaden in Grenzen, da nur Unterhaltungsgeräte ein- bzw. ausgeschaltet werden.
 Würde man auf gleiche Art und Weise ein Türschloss oder ähnliches kontrollieren erhöht das jedoch durch einen
 möglichen Einbruch den potentiellen Schaden.
 
-Die weitere TCP-Verbindung zwischen Raspberry-Pi und Playstation 4 ist zwar nicht über TLS,
-dafür aber auf Anwendungsebene verschlüsselt.
+Im Gegensatz zu den anderen Übertragungen wird
+in der TCP-Verbindung zwischen \textit{Home Assistant} und Playstation 4 kein allgemein bekannter Standard verwendet.
+Die Verbindung ist zwar nicht über TLS, dafür aber auf Anwendungsebene verschlüsselt.
+Hierdurch ist die Vertraulichkeit der Verbindung gesichert.
+Zusätzlich werden jedoch ungesichert Pakete mittels UDP übertragen.
+
+Zusammenfassend ist anzumerken,
+dass ein großer Teil der Kommunikation über bekannte Standards bewältigt wird.
+Zzumindest die Verbindungen, welche über das öffentliche Netz übertragen werden, sind gesichert.
+Über die unverschlüsselten lokalen Verbindungen kann im Privatgebrauch in einem sicheren Netz hinweggesehen werden.
+Sollte jedoch auch hier eine gesicherte Übertragung erforderlich sein,
+so ist von dem hier gezeigten Aufbau abzuraten.

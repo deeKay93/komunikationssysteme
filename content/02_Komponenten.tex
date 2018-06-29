@@ -1,14 +1,15 @@
 \newpage
 \section{Komponenten}\label{sec:komponenten}
 Für den Aufbau des Versuchs werden verschiedene Komponenten verwendet.
-Diese werden im folgenden Kapitel vorgestellt.
+Im folgenden Kapitel werden diese vorgestellt.
 
 \begin{description}
     \item[Sony Playstation 4 \cite{PS4Welco38:online}]
         Die \ac{ps4} ist eine Spielekonsole der aktuellsten Generation.
-        Zusätzlich zur Funktion Spiele zu spielen, bietet die \ac{ps4}
-        unter anderem auch die Möglichkeit Entertainment-Apps zu nutzen, um zum Beispiel Blue-Rays anzuschauen
-        oder Streamingdienste wie \textit{Amazon Instant Video} oder \textit{Netflix} zu nutzen.
+        Neben der Funktion Spiele zu spielen, bietet die \ac{ps4}
+        unter anderem auch die Möglichkeit Entertainment-Apps zu nutzen,
+        um zum Beispiel Streamingdienste wie \textit{Amazon Instant Video}
+        oder \textit{Netflix} zu nutzen.
 
         \begin{figure}[h!]
             \centering
@@ -16,15 +17,19 @@ Diese werden im folgenden Kapitel vorgestellt.
             \caption{Playstation 4 mit Controller}\label{fig:ps4}
         \end{figure}
 
-        Gesteuert wird die Konsole in der Regel, durch einen Controller, welcher hauptsächlich für Spiele konzipiert wurde.
+        Gesteuert wird die Konsole in der Regel, durch einen Controller,
+        welcher hauptsächlich für Spiele konzipiert wurde.
         Alternativ können auch diverse Bluetooth-Geräte oder eine Smartphone-App genutzt werden.
 
+    \newpage
+
     \item[Raspberry Pi \cite{Whatisth47:online}]
-        Der Raspberry Pi ist ein Einplatinencomputer \cite{Einplati37:online}, also ein Computer,
+        Der Raspberry Pi ist ein Einplatinencomputer \cite{Einplati37:online}.
+        Also ein Computer,
         bei welchem sich alle benötigten Komponenten auf einer einzigen Leiterplatte befinden.
-        In diesem Projekt wird das Modell \textit{Raspberry Pi 3 Model B} verwendet.
         Hierzu zählen beim Raspberry Pi unter anderem die CPU, ein HDMI-Anschluss, mehrere USB-Buchsen sowie ein LAN-Anschluss.
         Betrieben wird er über ein Betriebssystem, welches auf einer Micro-SD installiert wird.
+        In diesem Projekt wird das Modell \textit{Raspberry Pi 3 Model B} verwendet.
 
         \begin{figure}[h!]
             \centering
@@ -32,20 +37,25 @@ Diese werden im folgenden Kapitel vorgestellt.
             \caption{Raspberry Pi 3 Model B \cite{Raspberr2:online}}\label{fig:pi}
         \end{figure}
 
-        Das offiziell unterstütze Betriebssystem ist \textit{Raspbian}, welches auf dem Linux-Betriebssystem \textit{Debian} basiert.
-        Mit diesem Betriebssystem bietet der Raspberry Pi nahezu alle Möglichkeiten, welche auch ein klassischer Computer bietet.
-        Eine Einschränkung ist jedoch, dass der Pi lediglich einen ARM-Prozessor besitzt.
-        Programme, welche nur für x86- oder x64-Prozessoren entwickelt wurden, können somit nicht ausgeführt werden.
+        Das offiziell unterstütze Betriebssystem ist \textit{Raspbian},
+        welches auf dem Linux-Betriebssystem \textit{Debian} basiert.
+        Mit diesem Betriebssystem bietet der Raspberry Pi nahezu alle Möglichkeiten,
+        welche auch ein klassischer Computer bietet.
+        Eine Einschränkung ist jedoch, dass der Raspberry Pi lediglich einen ARM-Prozessor besitzt.
+        Programme, welche nur für x86- oder x64-Prozessoren entwickelt wurden,
+        können somit nicht ausgeführt werden.
 
         Anstelle von \textit{Raspbian} können auch andere Betriebssysteme installiert werden,
         welche besser auf einen bestimmten Anwendungsfall zugeschnitten sind.
 
+    \newpage
+
     \item[Home Assistant \cite{HomeAssi51:online}]
         Home Assistant ist eine open-source Plattform zur Heimautomatisierung.
-        Basierend auf der Programmiersprache \textit{Python 3} ist sie gedacht,
-        um auf einem Raspberry Pi ausgeführt zu werden.
+        Basierend auf der Programmiersprache \textit{Python} ist sie dafür konzipiert
+        auf einem Raspberry Pi ausgeführt zu werden.
         Mit \textit{Hassbian} wird ein Betriebssystem basierend auf \textit{Raspbian} angeboten,
-        auf welchen Home Assistant bereits installiert und grundlegend konfiguriert ist.
+        auf welchen Home Assistant bereits installiert und konfiguriert ist.
 
         \begin{figure}[h!]
             \centering
@@ -53,10 +63,12 @@ Diese werden im folgenden Kapitel vorgestellt.
             \caption{Logo Homeassistant}\label{fig:homeassistant}
         \end{figure}
 
-        Die Plattform ermöglicht das Überwachen und Steuern verschiedener Geräte zu Heimautomatisierung.
-        Für dieses Projekt wird sie so konfiguriert,
-        dass sie den Status der Playstation 4 überwacht und das Ein- sowie Ausschalten ermöglicht.
+        Die Plattform ermöglicht das Überwachen und Steuern verschiedener Geräte zur Heimautomatisierung.
+        Für dieses Projekt wird der Home Assistant so konfiguriert,
+        dass er den Status der Playstation 4 überwacht und das Ein- bzw. Ausschalten ermöglicht.
         Details zu dieser Konfiguration finden sich in Kapitel \ref{sec:aufbau} \textit{\nameref{sec:aufbau}}.
+
+    \newpage
 
     \item[Logitech Harmony \cite{HarmonyH15:online}]
         Logitech Harmony ist die Fernbedienungs-Sparte von Logitech.
@@ -73,7 +85,7 @@ Diese werden im folgenden Kapitel vorgestellt.
         \end{figure}
 
         Neben den verschiedenen Verbindungsmöglichkeiten ist ein großer Vorteil das Konfigurieren von \enquote{Aktionen}.
-        Diese Stellen eine Sammlung von Befehlen an verschiedene Geräte dar.
-        So kann beispielsweise über einen Tastendruck gleichzeitig Fernseher und Receiver eingeschaltet
-        und (entsprechende Smart-Home-Geräte vorausgesetzt) das Licht gedimmt werden.
+        Diese Stellen eine Kombination von Befehlen an verschiedene Geräte dar.
+        So kann Beispielsweise in diesem Versuch durch einen einzigen Tastendruck sowohl die Playstation 4,
+        als auch der Fernseher eingeschaltet und der Fernseher auf den richtigen Eingangskanal gestellt werden.
 \end{description}

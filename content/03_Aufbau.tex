@@ -1,10 +1,10 @@
 \newpage
 \section{Aufbau und Konfiguration}\label{sec:aufbau}
-Die in Kapitel \ref{sec:komponenten} \textit{\nameref{sec:komponenten}} beschriebenen
- Komponenten werden über verschiedene Technologien miteinander verknüpft.
-In \autoref{fig:aufbau} wird grundlegend dargestellt welche Komponenten miteinander verbunden sind.
+In \autoref{fig:aufbau} wird grundlegend dargestellt,
+wie die im vorigen Kapitel beschriebenen Komponenten diese miteinander verbunden sind.
 Hierbei ist anzumerken, dass Verbindungen über (W)LAN indirekt über einen Router erstellt werden.
-Zur Wahrung der Übersichtlichkeit sind lediglich die abstrakten Verbindungen auf Anwendungsebene dargestellt.
+Zur Wahrung der Übersichtlichkeit zeigt die Abbildung
+ lediglich die abstrakten Verbindungen auf Anwendungsebene.
 
 \begin{figure}[ht!]
     \centering
@@ -15,38 +15,39 @@ Zur Wahrung der Übersichtlichkeit sind lediglich die abstrakten Verbindungen au
     \label{fig:aufbau}
 \end{figure}
 
-\subsection{Harmony Hub}\label{sec:aufbau-hub}
-Zentrales Element ist der Harmony Hub.
-Er selbst ist über WLAN mit dem Heimnetzwerk verbunden.
-Angesteuert wird der Harmony Hub per Funk über die Fernbedienung.
+Im Folgenden werden die verschiedenen Konfigurationen der einzelnen Geräte vorgestellt.
 
+\subsection{Harmony Hub}\label{sec:aufbau-hub}
+Der Harmony Hub ist über WLAN mit dem Heimnetzwerk verbunden.
+Angesteuert wird er per Funk über die zugehörige Fernbedienung.
 Der Hub ist an die Playstation 4 über Bluetooth als Fernbedienung angeschlossen.
 Hierzu ist im Vorfeld das bei Bluetooth-Geräten übliche \enquote{Pairing} notwendig.
-
-Außerdem ist der Hub an den Raspberry Pi per LAN angeschlossen.
-Diese besondere Schnittstelle wird im Folgenden detailliert betrachtet.
+Außerdem ist er an den Raspberry Pi per LAN angeschlossen.
 
 \subsection{Raspberry Pi / Hassbian}\label{sec:aufbau-hassbian}
+
+\paragraph{LAN-Schnittstelle}
 Auf dem Raspberry Pi ist das Betriebssystem \textit{Hassbian} installiert.
-Das darin enthaltene Home Assistant emuliert die sogenannte \enquote{Hue Bridge} \cite{Emulated83:online}.
-Eigentlich ist die Hue Brige zentraler Bestandteil des smarten Lampensystems der Marke Phillips \cite{HueBridg65:online}.
+Der darin enthaltene Home Assistant emuliert die sogenannte \textit{Hue Bridge} \cite{Emulated83:online}.
+Eigentlich ist die \textit{Hue Bridge} zentraler Bestandteil des smarten Lampensystems der Marke Phillips \cite{HueBridg65:online}.
 In Home Assistant wird die emulierte Bridge genutzt, um eine Verbindung zum Harmony Hub herzustellen.
-Home Assistant stellt hierzu sogenannte \textit{Schalter} bereit, welche über die \textit{Hue API} an den Harmony Hub als Lichter präsentiert werden.
-Aus Sicht des Hubs kommuniziert er mit einer \enquote{normalen} Hue Bridge.
+Home Assistant stellt hierzu sogenannte \textit{Schalter} bereit, welche über die \textit{Hue API} an den Harmony Hub als Leuchten präsentiert werden.
+Aus Sicht des Hubs kommuniziert er mit einer \enquote{normalen} \textit{Hue Bridge}.
 Jedoch lassen sich über die Schalter mehr als nur Lichter steuern.
 Eine weitere Möglichkeit ist das in diesem Projekt genutzte Ausführen von Kommandozeilenbefehlen über eine entsprechende Schnittstelle (\ac{cli})
 indem hierfür spezielle Schalter konfiguriert werden.
 
-Das \ac{cli} wird genutzt, um die Playstation 4 unter Nutzung des Programms \textit{ps4-waker}\cite{dhleongp12:online} zu steuern.
-Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub bereits eine direkte Verbindung zur Playstation 4 besitzt?
-Die Playstation lässt sich zwar per Bluetooth steuern, allerdings lässt sie sich auf diesem Weg nicht einschalten.
-Das Programm \textit{ps4-waker} hingegen erlaubt es die \ac{ps4} ein- sowie auszuschalten und sogar bestimmte Anwendungen zu starten.
+\paragraph{Steuern der \ac{ps4}}
+Das \ac{cli} wird genutzt, um die Playstation 4 unter Nutzung des Programms \textit{ps4-waker} \cite{dhleongp12:online} zu steuern.
+Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub bereits eine direkte Bluetooth-Verbindung zur Playstation 4 besitzt?
+Die Playstation lässt sich zwar per Bluetooth steuern,
+kann auf diesem Weg allerdings nicht eingeschaltet werden.
+Das Programm \textit{ps4-waker} hingegen erlaubt es die \ac{ps4} ein- sowie auszuschalten und sogar Anwendungen zu starten.
 Das Einschalten geschieht über einen Befehl der Form \lstinline[language=bash]{ps4-waker -d 192.168.178.34  -c ~/.homeassistant/.ps4-wake.credentials.json}.
-\lstinline[language=bash]{-d} gibt hierbei die IP-Adresse des Gerätes und
-\lstinline[language=bash]{-c} die Datei,
-welche die notwendigen Zugangsdaten enthält, an.
-Durch anhängen des Schlüsselworts \lstinline[language=bash]{standby} kann die
-\ac{ps4} wieder ausgeschaltet werden.
+Durch \lstinline[language=bash]{-d} wird hierbei die IP-Adresse des Gerätes und
+durch \lstinline[language=bash]{-c} die Datei,
+welche die notwendigen Zugangsdaten enthält, angegeben.
+
 Die Zugangsdaten werden zuvor durch folgendes Pairing-Verfahren ermittelt:
 \begin{enumerate}
     \setlength\itemsep{-0.5em}
@@ -55,6 +56,9 @@ Die Zugangsdaten werden zuvor durch folgendes Pairing-Verfahren ermittelt:
     \item \textit{ps4-waker} nutzt die so übertragenen Informationen um sich gegenüber der echten \ac{ps4} als Smartphone-App auszugeben.
     \item Die so erhaltenen Zugangsdaten werden in einer JSON-Datei gespeichert.
 \end{enumerate}
+
+Durch Anhängen des Schlüsselworts \lstinline[language=bash]{standby} kann die
+\ac{ps4} wieder ausgeschaltet werden.
 
 Der Home Assistant wird so konfiguriert,
 dass die Befehle des \textit{ps4-waker} über einen Schalter ausgeführt werden können.
@@ -71,7 +75,8 @@ Der Schalter wiederum ist automatisch durch die emulierte \textit{Hue Bridge} al
 Die erste Zeile gibt die eindeutige ID für den Schalter an.
 Durch den \lstinline[language=yaml]{friendly_name} kann zusätzlich ein nutzerfreundlicher Name zur Anzeige auf Benutzeroberflächen angegeben werden.
 
-Der aktuelle Zustand des Schalters wird mit \lstinline[language=yaml]{command_state} und
+Der aktuelle Zustand des Schalters wird mit \lstinline[language=yaml]{command_state}
+und \\
 \lstinline[language=yaml]{value_template} ermittelt.
 Der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_state} wird regelmäßig ausgeführt.
 Als Ergebnis liefert er die in \autoref{lst:ps4-waker_search} dargestellten Daten im JSON-Format.
@@ -92,17 +97,13 @@ Je nach aktuellem Status des Schalters führt ein betätigen dazu, dass der Komm
 oder der unter \lstinline[language=yaml]{command_off} zum Ausschalten ausgeführt wird.
 Beides wird über die jeweiligen Befehle von \textit{ps4-waker} umgesetzt.
 
-\todo[inline]{Beschreibung befehle inkl. Ähnlichkeit}
-
 \subsection{Netzadressen}\label{sec:aufbau-adressen}
-Alle Geräte befinden sich im gleichen lokalen Netzwerk.
 Die folgende Tabelle zeigt die jeweiligen IP- und MAC-Adressen anhand welcher die
-späteren Paketmitschnitte analysiert werden.
+späteren Paketmitschnitte analysiert werden. \\
 
-\begin{table}[h!]
-    \centering
+\begin{center}
     \begin{tabular}{l||c|c}
-        Gerät           & IP-Adresse      &  MAC-Adresse          \\
+        Gerät           & IP-Adresse                &  MAC-Adresse          \\
         \hline
         \hline
         Harmony Hub     & \texttt{192.168.178.21}  &  \texttt{C8:DB:26:00:D0:E9}  \\
@@ -111,6 +112,5 @@ späteren Paketmitschnitte analysiert werden.
         \hline
         Playstation     & \texttt{192.168.178.34}  &  \texttt{80:EA:23:19:B6:5C}   \\
     \end{tabular}
-    \caption{IP- und MAC-Adressen der Komponenten}
-    \label{ex:netzadressen}
-\end{table}
+\end{center}
+
