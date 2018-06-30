@@ -3,12 +3,12 @@
 In diesem Kapitel werden die Szenarien im Detail beschrieben,
 sowie deren Paketmittschnitte analysiert.
 Die Analyse beschränkt sich hierbei auf Nachrichten der Pakete untereinander
-und mit dem Szenario zusammenhängende Pakete an andere Geräte/Server im Internet.
+und auf mit dem Szenario zusammenhängende Pakete an andere Geräte/Server im Internet.
 
 \subsection{Jeweils eine Minute ohne Aktionen bei ein- und ausgeschalteter Konsole}\label{sec:durchfuehrung-aus}
 Ziel dieses Szenarios ist es,
 die \enquote{selbstständige} Kommunikation zu ermitteln.
-Also die Kommunikation, welche zwischen den Geräten stattfindet, ohne, dass durch den Benutzer ein Befehl erteilt wurde.
+Also die Kommunikation, welche zwischen den Geräten stattfindet, ohne dass durch den Benutzer ein Befehl erteilt wurde.
 Es zeigt sich, dass die Geräte auch im Ruhezustand rege miteinander Informationen austauschen.
 
 \paragraph{Home Assistant und Playstation 4}
@@ -85,6 +85,7 @@ In diesem Fall ist sie ausgeschaltet, weshalb dieser Wert \lstinline[language=js
 \newpage
 
 \subsection{Ein- und Ausschalten über Home Assistant}\label{sec:durchfuehrung-hassbian}
+\hyphenation{Web-ober-fläche}
 Der Home Assistant bietet zur Steuerung der konfigurierten Geräte eine Weboberfläche.
 In \autoref{fig:hass-ui} ist der Schalter hervorgehoben, welcher für das Ein- und Ausschalten der Playstation 4 genutzt wird.
 
@@ -106,7 +107,7 @@ das andere den Befehl \texttt{LAUNCH} (\autoref{lst:ps4-launch}).
 
 
 Das Feld \texttt{user-credential} (in den Listings gekürzt) ist hierbei immer gleich.
-Der darin entahltene Wert wurde beim initialen Verbindungsaufbau automatisch ermittelt.
+Der darin enthaltene Wert wurde beim initialen Verbindungsaufbau automatisch ermittelt.
 Laut dem Entwickler werden zwei \texttt{WAKEUP}-Pakete und ein \texttt{LAUNCH}-Paket gesendet,
 um zu prüfen, ob die \ac{ps4} bereit ist eine Verbindung anzunehmen.
 
@@ -152,11 +153,11 @@ Der Hub schaltet die Konsole direkt über die Bluetooth-Verbindung aus,
 sobald die Aktion \enquote{Spielen} beendet wird.
 
 \subsubsection{Einschalten}
-Der Paketmittschnitt enthält mehrere TCP-Verbindungen.
+Der Paketmitschnitt enthält mehrere TCP-Verbindungen.
 An der Kommunikation sind wie erwartet der Harmony Hub, der \textit{Home Assistant} und die \ac{ps4} beteiligt.
 Zusätzlich frägt der Harmony Hub per DNS die IP-Adresse von \nolinkurl{home.myharmony.com} an.
 Als Antwort wird auf den Server an mit der URL \nolinkurl{home-myharmony.us-east-1.elasticbeanstalk.com} verwiesen.
-Die TCP-Verbindung zwischen dern Harmony HUb und dem Webserver ist durch TLS verschlüsselt.
+Die TCP-Verbindung zwischen Harmony Hub und Webserver ist durch TLS verschlüsselt.
 
 Der \textit{Home Assistant} und die \ac{ps4} kommunizieren, wie bereits im vorigen Abschnitt untersucht, mittels TCP und UDP.
 Der Harmony Hub kommuniziert mit \textit{Home Assistant} über HTTP.
@@ -166,7 +167,7 @@ Bei HTTP-Verbindungen wird lediglich das HTTP-Paket gezeigt,
 der TCP-Rahmen mit Verbindungsaufbau und -abbau wird nicht abgebildet.
 Außerdem fehlen in der Abbildung die UDP-Pakete,
 welche vom \textit{Home Assistant} genutzt werden,
-um den Status der \ac{ps4} zu Erfragen.
+um den Status der \ac{ps4} zu erfragen.
 
 \begin{figure}
     \centering
@@ -187,7 +188,7 @@ Daher können zum genauen Inhalt und Zweck keine Aussagen getroffen werden.
 Vermutlich dienen sie dazu Informationen über die gestartete Aktion mitzuteilen.
 
 Bei genauerer Betrachtung eines Paketes, welches vom Harmony Hub an den Webserver gesendet wird,
-sind verschiedene Besonderheiten zu erkennen.
+sind verschiedene Besonderheiten zu erkennen:
 
 \begin{figure}[h!]
     \centering
@@ -196,15 +197,15 @@ sind verschiedene Besonderheiten zu erkennen.
 \end{figure}
 
 
-\autoref{fig:internet-paket} zeigt die verschiedenen Protokoll-Header, welche ineinander geschachtelt sind.
+\autoref{fig:internet-paket} zeigt die verschiedenen Protokoll-Header, welche ineinander verschachtelt sind.
 Die oberste Zeile (\textit{Frame}) steht für das gesamte Paket.
 
 In der zweiten Zeile steht die äußerste Paket-Schicht \textit{Ethernet II}.
 Deren Quelladresse ist wie zu erwarten die MAC-Adresse des Harmony Hub.
 Als Zieladresse ist jedoch nicht die MAC-Adresse des Webservers,
-sondern die der Fritz!Box angegeben.
+sondern die der FRITZ!Box angegeben.
 Dies liegt daran, dass Ethernet lediglich zur Kommunikation im lokalen Netz verwendet wird.
-Das Paket wird per Ethernet an die Fritz!Box gesendet.
+Das Paket wird per Ethernet an die FRITZ!Box gesendet.
 Dort wird die \enquote{Ethernet-Nutzlast} (das IP-Paket inklusive TCP; Zeile 3) entpackt und über \textit{IPv4} an das eigentliche Ziel weitergeleitet.
 Dieses ist als Zieladresse im IP-Header angegeben.
 

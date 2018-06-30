@@ -1,7 +1,7 @@
 \newpage
 \section{Aufbau und Konfiguration}\label{sec:aufbau}
 In \autoref{fig:aufbau} wird grundlegend dargestellt,
-wie die im vorigen Kapitel beschriebenen Komponenten diese miteinander verbunden sind.
+wie die im vorigen Kapitel beschriebenen Komponenten miteinander verbunden sind.
 Hierbei ist anzumerken, dass Verbindungen über (W)LAN indirekt über einen Router erstellt werden.
 Zur Wahrung der Übersichtlichkeit zeigt die Abbildung
  lediglich die abstrakten Verbindungen auf Anwendungsebene.
@@ -43,6 +43,7 @@ Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub berei
 Die Playstation lässt sich zwar per Bluetooth steuern,
 kann auf diesem Weg allerdings nicht eingeschaltet werden.
 Das Programm \textit{ps4-waker} hingegen erlaubt es die \ac{ps4} ein- sowie auszuschalten und sogar Anwendungen zu starten.
+
 Das Einschalten geschieht über einen Befehl der Form \lstinline[language=bash]{ps4-waker -d 192.168.178.34  -c ~/.homeassistant/.ps4-wake.credentials.json}.
 Durch \lstinline[language=bash]{-d} wird hierbei die IP-Adresse des Gerätes und
 durch \lstinline[language=bash]{-c} die Datei,
@@ -53,11 +54,11 @@ Die Zugangsdaten werden zuvor durch folgendes Pairing-Verfahren ermittelt:
     \setlength\itemsep{-0.5em}
     \item \textit{ps4-waker} gibt sich beim ersten Start als Playstation 4 aus.
     \item Mit einem Smartphone versucht man sich über die entsprechende App mit der falschen \ac{ps4} zu verbinden.
-    \item \textit{ps4-waker} nutzt die so übertragenen Informationen um sich gegenüber der echten \ac{ps4} als Smartphone-App auszugeben.
+    \item \textit{ps4-waker} nutzt die so übertragenen Informationen, um sich gegenüber der echten \ac{ps4} als Smartphone-App auszugeben.
     \item Die so erhaltenen Zugangsdaten werden in einer JSON-Datei gespeichert.
 \end{enumerate}
 
-Durch Anhängen des Schlüsselworts \lstinline[language=bash]{standby} kann die
+Durch Anhängen des Schlüsselworts \enquote{\lstinline[language=bash]{standby}} kann die
 \ac{ps4} wieder ausgeschaltet werden.
 
 Der Home Assistant wird so konfiguriert,
@@ -93,7 +94,7 @@ Ist dies der Fall, so gilt der Schalter als eingeschaltet, andernfalls als ausge
     language=json
 ]{ps4-waker_search.json}
 
-Je nach aktuellem Status des Schalters führt ein betätigen dazu, dass der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_on} zum Einschalten
+Je nach aktuellem Status des Schalters führt ein Betätigen dazu, dass der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_on} zum Einschalten
 oder der unter \lstinline[language=yaml]{command_off} zum Ausschalten ausgeführt wird.
 Beides wird über die jeweiligen Befehle von \textit{ps4-waker} umgesetzt.
 

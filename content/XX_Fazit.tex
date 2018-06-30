@@ -3,9 +3,9 @@
 \section{Fazit}\label{sec:fazit}
 
 Zwischen vielen Geräten wird zur Kommunikation der Standard HTTP,
-bzw. bei der Kommunikation nach Außen sogar HTTPS verwendet.
+bzw. bei der Kommunikation nach außen sogar HTTPS verwendet.
 
-Erfreulicherweiße ist die Kommunikation mit dem Webserver im Internet damit durch TLS geschützt.
+Erfreulicherweise ist die Kommunikation mit dem Webserver im Internet damit durch TLS geschützt.
 
 Die interne Kokmmunikation mit der emulierten \textit{Hue Brige} hingegen ist nicht geschützt.
 Weder Integrität noch Vertraulichkeit sind damit gesichert.
@@ -33,7 +33,10 @@ Zusätzlich werden jedoch ungesichert Pakete mittels UDP übertragen.
 
 Zusammenfassend ist anzumerken,
 dass ein großer Teil der Kommunikation über bekannte Standards bewältigt wird.
-Zzumindest die Verbindungen, welche über das öffentliche Netz übertragen werden, sind gesichert.
-Über die unverschlüsselten lokalen Verbindungen kann im Privatgebrauch in einem sicheren Netz hinweggesehen werden.
-Sollte jedoch auch hier eine gesicherte Übertragung erforderlich sein,
+Zumindest die Verbindungen, welche über das öffentliche Netz übertragen werden, sind gesichert.
+Somit die Heimautomatisierung an sich gegen Angriffe von außen geschützt.
+Im lokalen Netz sind nicht alle Verbindungen verschlüsselt.
+Wird das Netzt von mehreren Personen genutzt, welche sich nicht untereinander vertrauen,
+oder sollte aus anderen Gründen auch lokal eine gesicherte Übertragung notwendig sein,
 so ist von dem hier gezeigten Aufbau abzuraten.
+In einem überschaubaren, sicheren Netz kann über die unverschlüsselten Verbindungen jedoch hinweggesehen werden.
