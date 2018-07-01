@@ -18,30 +18,17 @@ Zur Wahrung der Übersichtlichkeit zeigt die Abbildung
 Im Folgenden werden die verschiedenen Konfigurationen der einzelnen Geräte vorgestellt.
 
 \subsection{Harmony Hub}\label{sec:aufbau-hub}
-Der Harmony Hub ist über WLAN mit dem Heimnetzwerk verbunden.
-Angesteuert wird er per Funk über die zugehörige Fernbedienung.
-Der Hub ist an die Playstation 4 über Bluetooth als Fernbedienung angeschlossen.
-Hierzu ist im Vorfeld das bei Bluetooth-Geräten übliche \enquote{Pairing} notwendig.
-Außerdem ist er an den Raspberry Pi per LAN angeschlossen.
+Um den Harmony Hub als Fernbedienung für die Playstation 4 zu nutzen,
+ist im Vorfeld das bei Bluetooth-Geräten übliche \enquote{Pairing} notwendig.
 
-\subsection{Raspberry Pi / Hassbian}\label{sec:aufbau-hassbian}
+\newpage
 
-\paragraph{LAN-Schnittstelle}
-Auf dem Raspberry Pi ist das Betriebssystem \textit{Hassbian} installiert.
-Der darin enthaltene Home Assistant emuliert die sogenannte \textit{Hue Bridge} \cite{Emulated83:online}.
-Eigentlich ist die \textit{Hue Bridge} zentraler Bestandteil des smarten Lampensystems der Marke Phillips \cite{HueBridg65:online}.
-In Home Assistant wird die emulierte Bridge genutzt, um eine Verbindung zum Harmony Hub herzustellen.
-Home Assistant stellt hierzu sogenannte \textit{Schalter} bereit, welche über die \textit{Hue API} an den Harmony Hub als Leuchten präsentiert werden.
-Aus Sicht des Hubs kommuniziert er mit einer \enquote{normalen} \textit{Hue Bridge}.
-Jedoch lassen sich über die Schalter mehr als nur Lichter steuern.
-Eine weitere Möglichkeit ist das in diesem Projekt genutzte Ausführen von Kommandozeilenbefehlen über eine entsprechende Schnittstelle (\ac{cli})
-indem hierfür spezielle Schalter konfiguriert werden.
+\subsection{Raspberry Pi}\label{sec:aufbau-hassbian}
 
 \paragraph{Steuern der \ac{ps4}}
-Das \ac{cli} wird genutzt, um die Playstation 4 unter Nutzung des Programms \textit{ps4-waker} \cite{dhleongp12:online} zu steuern.
-Doch wieso wird ein solch komplexer Aufbau benötigt, wenn der Harmony Hub bereits eine direkte Bluetooth-Verbindung zur Playstation 4 besitzt?
 Die Playstation lässt sich zwar per Bluetooth steuern,
 kann auf diesem Weg allerdings nicht eingeschaltet werden.
+
 Das Programm \textit{ps4-waker} hingegen erlaubt es die \ac{ps4} ein- sowie auszuschalten und sogar Anwendungen zu starten.
 
 Das Einschalten geschieht über einen Befehl der Form \lstinline[language=bash]{ps4-waker -d 192.168.178.34  -c ~/.homeassistant/.ps4-wake.credentials.json}.
@@ -53,19 +40,21 @@ Die Zugangsdaten werden zuvor durch folgendes Pairing-Verfahren ermittelt:
 \begin{enumerate}
     \setlength\itemsep{-0.5em}
     \item \textit{ps4-waker} gibt sich beim ersten Start als Playstation 4 aus.
-    \item Mit einem Smartphone versucht man sich über die entsprechende App mit der falschen \ac{ps4} zu verbinden.
-    \item \textit{ps4-waker} nutzt die so übertragenen Informationen, um sich gegenüber der echten \ac{ps4} als Smartphone-App auszugeben.
+    \item Mit einem Smartphone wird versucht sich über die entsprechende App mit der \enquote{falschen} \ac{ps4} zu verbinden.
+    \item \textit{ps4-waker} nutzt die so übertragenen Informationen, um sich gegenüber der \enquote{echten} \ac{ps4} als Smartphone-App auszugeben.
     \item Die so erhaltenen Zugangsdaten werden in einer JSON-Datei gespeichert.
 \end{enumerate}
 
 Durch Anhängen des Schlüsselworts \enquote{\lstinline[language=bash]{standby}} kann die
 \ac{ps4} wieder ausgeschaltet werden.
 
-Der Home Assistant wird so konfiguriert,
-dass die Befehle des \textit{ps4-waker} über einen Schalter ausgeführt werden können.
+Um \textit{ps4-waker} innerhalb von Home Assistant zu nutzen,
+werden sogenannte \textit{Schalter} konfiguriert.
+Unter anderem können diese Schalter genutzt werden, um Kommandozeilenbefehle (\ac{cli})
+im darunterliegenden Betriebssystem auszuführen.
+
 In \autoref{lst:ps4_switch} ist die Konfiguration des Schalters dargestellt,
 welcher zum Ein- und Ausschalten der Playstation 4 dient.
-Der Schalter wiederum ist automatisch durch die emulierte \textit{Hue Bridge} als Leuchte zugänglich.
 
 \lstinputlisting[
     caption=Konfiguration des Schalters,
@@ -77,9 +66,8 @@ Die erste Zeile gibt die eindeutige ID für den Schalter an.
 Durch den \lstinline[language=yaml]{friendly_name} kann zusätzlich ein nutzerfreundlicher Name zur Anzeige auf Benutzeroberflächen angegeben werden.
 
 Der aktuelle Zustand des Schalters wird mit \lstinline[language=yaml]{command_state}
-und \\
-\lstinline[language=yaml]{value_template} ermittelt.
-Der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_state} wird regelmäßig ausgeführt.
+und \lstinline[language=yaml]{value_template} ermittelt.
+Der Kommandozeilenbefehl \lstinline[language=yaml]{command_state} wird regelmäßig ausgeführt.
 Als Ergebnis liefert er die in \autoref{lst:ps4-waker_search} dargestellten Daten im JSON-Format.
 In \lstinline[language=yaml]{value_template} wird auf dieses JSON über
 \lstinline[language=yaml]{'value_json'} zugegriffen.
@@ -94,9 +82,20 @@ Ist dies der Fall, so gilt der Schalter als eingeschaltet, andernfalls als ausge
     language=json
 ]{ps4-waker_search.json}
 
-Je nach aktuellem Status des Schalters führt ein Betätigen dazu, dass der Kommandozeilenbefehl unter \lstinline[language=yaml]{command_on} zum Einschalten
-oder der unter \lstinline[language=yaml]{command_off} zum Ausschalten ausgeführt wird.
+Je nach aktuellem Status des Schalters führt ein Betätigen dazu, dass der Kommandozeilenbefehl \lstinline[language=yaml]{command_on} zum Einschalten
+oder der \lstinline[language=yaml]{command_off} zum Ausschalten ausgeführt wird.
 Beides wird über die jeweiligen Befehle von \textit{ps4-waker} umgesetzt.
+
+\paragraph{LAN-Schnittstelle}
+Der Schalter kann ohne Weiteres nicht durch den Harmony Hub gesteuert werden,
+da keine gemeinsame Schnittstelle vorhanden ist.
+
+Diese Aufgabe übernimmt eine emulierte \textit{Hue Bridge}.
+Eigentlich ist die \textit{Hue Bridge} zentraler Bestandteil des smarten Lampensystems der Marke Phillips \cite{HueBridg65:online}.
+Im Home-Assistant wird die emulierte \textit{Hue Bridge} so konfiguriert,
+dass sie den Schalter gegenüber dem Harmony Hub als Leuchte präsentiert.
+Da im Harmony Hub das Kontrollieren von Leuchten einer \textit{Hue Bridge} möglich ist,
+kann auf diesem Weg der Schalter ein- und ausgeschaltet werden.
 
 \subsection{Netzadressen}\label{sec:aufbau-adressen}
 Die folgende Tabelle zeigt die jeweiligen IP- und MAC-Adressen anhand welcher die

@@ -3,89 +3,68 @@
 Für den Aufbau des Versuchs werden verschiedene Komponenten verwendet.
 Im folgenden Kapitel werden diese vorgestellt:
 
-\begin{description}
-    \item[Sony Playstation 4 \cite{PS4Welco38:online}]
-        Die \ac{ps4} ist eine Spielekonsole der aktuellsten Generation.
-        Neben der Funktion Spiele zu spielen, bietet die \ac{ps4}
-        unter anderem auch die Möglichkeit Entertainment-Apps zu nutzen,
-        um zum Beispiel Streamingdienste wie \textit{Amazon Instant Video}
-        oder \textit{Netflix} zu nutzen.
+\paragraph{Sony Playstation 4 \cite{PS4Welco38:online}}
+Die \ac{ps4} ist eine Spielekonsole der aktuellen Generation.
 
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.5\textwidth]{ps4}
-            \caption{Playstation 4 mit Controller}\label{fig:ps4}
-        \end{figure}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{ps4}
+    \caption{Playstation 4 mit Controller}\label{fig:ps4}
+\end{figure}
 
-        Gesteuert wird die Konsole in der Regel durch einen Controller,
-        welcher hauptsächlich für Spiele konzipiert wurde.
-        Alternativ können auch diverse Bluetooth-Geräte oder eine Smartphone-App genutzt werden.
+Gesteuert wird sie in der Regel durch einen Controller,
+welcher hauptsächlich für Spiele konzipiert wurde.
+Alternativ können auch diverse Bluetooth-Geräte oder eine Smartphone-App genutzt werden.
 
-    \newpage
+\paragraph{Raspberry Pi \cite{Whatisth47:online}}
+Der Raspberry Pi ist ein weit verbreiteter Einplatinencomputer.
+In diesem Projekt wird das Modell \textit{Raspberry Pi 3 Model B} verwendet.
 
-    \item[Raspberry Pi \cite{Whatisth47:online}]
-        Der Raspberry Pi ist ein Einplatinencomputer \cite{Einplati37:online}.
-        Also ein Computer,
-        bei welchem sich alle benötigten Komponenten auf einer einzigen Leiterplatte befinden.
-        Hierzu zählen beim Raspberry Pi unter anderem die CPU, ein HDMI-Anschluss, mehrere USB-Buchsen sowie ein LAN-Anschluss.
-        Betrieben wird er über ein Betriebssystem, welches auf einer Micro-SD installiert wird.
-        In diesem Projekt wird das Modell \textit{Raspberry Pi 3 Model B} verwendet.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{pi}
+    \caption{Raspberry Pi 3 Model B \cite{Raspberr2:online}}\label{fig:pi}
+\end{figure}
 
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.5\textwidth]{pi}
-            \caption{Raspberry Pi 3 Model B \cite{Raspberr2:online}}\label{fig:pi}
-        \end{figure}
+Das offiziell unterstütze Betriebssystem ist \textit{Raspbian},
+welches auf dem Linux-Betriebssystem \textit{Debian} basiert.
+Alternativ können auch andere Betriebssysteme installiert werden,
+welche besser auf einen bestimmten Anwendungsfall zugeschnitten sind.
 
-        Das offiziell unterstütze Betriebssystem ist \textit{Raspbian},
-        welches auf dem Linux-Betriebssystem \textit{Debian} basiert.
-        Mit diesem Betriebssystem bietet der Raspberry Pi nahezu alle Möglichkeiten,
-        welche auch ein klassischer Computer bietet.
-        Eine Einschränkung ist jedoch, dass der Raspberry Pi lediglich einen ARM-Prozessor besitzt.
-        Programme, welche nur für x86- oder x64-Prozessoren entwickelt wurden,
-        können somit nicht ausgeführt werden.
+\newpage
 
-        Anstelle von \textit{Raspbian} können auch andere Betriebssysteme installiert werden,
-        welche besser auf einen bestimmten Anwendungsfall zugeschnitten sind.
+\paragraph{Home Assistant \cite{HomeAssi51:online}}
+Home Assistant ist eine open-source Plattform zur Heimautomatisierung.
+Basierend auf der Programmiersprache \textit{Python} ist sie dafür konzipiert
+auf einem Raspberry Pi ausgeführt zu werden.
+Mit \textit{Hassbian} wird ein Betriebssystem basierend auf \textit{Raspbian} angeboten,
+auf welchen Home Assistant bereits installiert und konfiguriert ist.
 
-    \newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.2\textwidth]{homeassistant}
+    \caption{Logo Homeassistant}\label{fig:homeassistant}
+\end{figure}
 
-    \item[Home Assistant \cite{HomeAssi51:online}]
-        Home Assistant ist eine open-source Plattform zur Heimautomatisierung.
-        Basierend auf der Programmiersprache \textit{Python} ist sie dafür konzipiert
-        auf einem Raspberry Pi ausgeführt zu werden.
-        Mit \textit{Hassbian} wird ein Betriebssystem basierend auf \textit{Raspbian} angeboten,
-        auf welchen Home Assistant bereits installiert und konfiguriert ist.
+Die Plattform ermöglicht das Überwachen und Steuern verschiedener Geräte zur Heimautomatisierung.
+Für dieses Projekt wird der Home Assistant so konfiguriert,
+dass er den Status der Playstation 4 überwacht und das Ein- bzw. Ausschalten ermöglicht.
+Details zu dieser Konfiguration finden sich in Kapitel \ref{sec:aufbau} \textit{\nameref{sec:aufbau}}.
 
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.25\textwidth]{homeassistant}
-            \caption{Logo Homeassistant}\label{fig:homeassistant}
-        \end{figure}
+\paragraph{Logitech Harmony \cite{HarmonyH15:online}}
+Logitech Harmony ist die Fernbedienungs-Sparte von Logitech.
+In diesem Projekt wird der Harmony Hub zusammen mit der zugehörigen Harmony Elite Fernbedienung verwendet.
+Durch den Harmony Hub könne zahlreiche Geräte über Infrarot, WLAN oder Bluetooth gesteuert werden.
+Die Fernbedienung selbst kommuniziert hierbei über Funk \cite{HowToPoi90:online} mit dem Hub.
+Der Hub gibt die Befehle an die entsprechenden Geräte weiter.
 
-        Die Plattform ermöglicht das Überwachen und Steuern verschiedener Geräte zur Heimautomatisierung.
-        Für dieses Projekt wird der Home Assistant so konfiguriert,
-        dass er den Status der Playstation 4 überwacht und das Ein- bzw. Ausschalten ermöglicht.
-        Details zu dieser Konfiguration finden sich in Kapitel \ref{sec:aufbau} \textit{\nameref{sec:aufbau}}.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{harmony-elite}
+    \caption{Harmony Hub mit Fernbedienung}\label{fig:harmony}
+\end{figure}
 
-    \newpage
-
-    \item[Logitech Harmony \cite{HarmonyH15:online}]
-        Logitech Harmony ist die Fernbedienungs-Sparte von Logitech.
-        In diesem Projekt wird der Harmony Hub zusammen mit der zugehörigen Harmony Elite Fernbedienung verwendet,
-        Durch den Harmony Hub könne zahlreiche Geräte über Infrarot, WLAN oder Bluetooth gesteuert werden.
-        Die Fernbedienung selbst kommuniziert hierbei über Funk \cite{HowToPoi90:online} mit dem Hub.
-        Der Hub gibt die Befehle dann an die entsprechenden Geräte weiter.
-        Zusätzlich lässt sich der Hub über eine Smartphone-App ansteuern.
-
-        \begin{figure}[h!]
-            \centering
-            \includegraphics[width=0.5\textwidth]{harmony-elite}
-            \caption{Hub, Fernbedienung und Smartphone mit App}\label{fig:harmony}
-        \end{figure}
-
-        Neben den verschiedenen Verbindungsmöglichkeiten ist ein großer Vorteil das Konfigurieren von \enquote{Aktionen}.
-        Diese Stellen eine Kombination von Befehlen an verschiedene Geräte dar.
-        So kann beispielsweise in diesem Versuch durch einen einzigen Tastendruck sowohl die Playstation 4,
-        als auch der Fernseher eingeschaltet und der Fernseher auf den richtigen Eingangskanal gestellt werden.
-\end{description}
+Neben den verschiedenen Verbindungsmöglichkeiten ist ein großer Vorteil das Konfigurieren von \enquote{Aktionen}.
+Diese sind eine Kombination von Befehlen an verschiedene Geräte.
+So kann beispielsweise durch einen einzigen Tastendruck sowohl die Playstation 4,
+als auch der Fernseher eingeschaltet werden.

@@ -2,13 +2,13 @@
 \section{Durchführung}\label{sec:durchfuehrung}
 In diesem Kapitel werden die Szenarien im Detail beschrieben,
 sowie deren Paketmittschnitte analysiert.
-Die Analyse beschränkt sich hierbei auf Nachrichten der Pakete untereinander
+Die Analyse beschränkt sich hierbei auf Nachrichten der Geräte untereinander
 und auf mit dem Szenario zusammenhängende Pakete an andere Geräte/Server im Internet.
 
 \subsection{Jeweils eine Minute ohne Aktionen bei ein- und ausgeschalteter Konsole}\label{sec:durchfuehrung-aus}
-Ziel dieses Szenarios ist es,
-die \enquote{selbstständige} Kommunikation zu ermitteln.
-Also die Kommunikation, welche zwischen den Geräten stattfindet, ohne dass durch den Benutzer ein Befehl erteilt wurde.
+Ziel dieses Szenarios ist es die Kommunikation zu ermitteln,
+welche zwischen den Geräten stattfindet,
+ohne dass durch den Benutzer ein Befehl erteilt wurde.
 Es zeigt sich, dass die Geräte auch im Ruhezustand rege miteinander Informationen austauschen.
 
 \paragraph{Home Assistant und Playstation 4}
@@ -22,18 +22,22 @@ dass der Router das Paket an alle lokalen Geräte verteilt.
 
 Der Inhalt des Pakets (siehe \autoref{lst:ps4-wakeup_search}) besteht aus dem Kommando \texttt{SRCH},
 der HTTP-Version und einer \texttt{device-discovery-protocol-version}.
-Vermutlich steht das Kürzel \texttt{SRCH} für \enquote{Search} und gibt damit an,
-dass mit diesem Paket keine Aktionen ausgeführt,
-sondern nur Systeminformationen mitgeteilt werden sollen.
+Vermutlich steht das Kürzel \texttt{SRCH} für \enquote{Search}.
+Mit disem Paket werden keine Aktionen ausgeführt,
+sondern nur Systeminformationen angefordert.
 
 \lstinputlisting[
     caption=Daten eines SRCH-Paketes,
     label=lst:ps4-wakeup_search
 ]{ps4_search.udp}
 
+\newpage
+
 Auf dieses Paket antwortet die \ac{ps4} ebenfalls mit einem UDP-Paket,
 welches verschiedenen Geräteinformationen enthält.
-Vergleicht man die Antworten in \autoref{lst:ps4-wakeup_search_respOn} und \autoref{lst:ps4-wakeup_search_respOff},
+
+Vergleicht man die Antworten der eingeschalteten (\autoref{lst:ps4-wakeup_search_respOn})
+und ausgeschalteten (\autoref{lst:ps4-wakeup_search_respOff}) \ac{ps4} miteinander,
 so ist festzustellen,
 dass sich die jeweiligen Antworten lediglich im Statuscode der ersten Zeile unterscheiden.
 \texttt{200 Ok} gibt an, dass die Playstation 4 eingeschaltet und \texttt{620 Server Standby},
@@ -49,30 +53,26 @@ dass die ausgeschaltet (bzw. im Standby-Modus) ist.
     label=lst:ps4-wakeup_search_respOff
 ]{ps4_search_respOff.udp}
 
-
-
-
+\newpage
 \paragraph{Home Assistant und Harmony Hub}
 Um ebenfalls regelmäßig den aktuellen Status der Spielekonsole zu erfahren,
 erfragt der Harmony Hub diese Information beim Home Assistant über die emulierte \textit{Hue Bridge}.
 Dies geschieht in Form eines HTTP-GET-Requests,
 welcher über eine für diesen Zweck errichte TCP-Verbindung erfolgt.
-Der Request erfolgt and die URL \nolinkurl{192.168.178.45:8300/api/12345678901234567890/lights}.
+Der Request erfolgt an die URL \nolinkurl{192.168.178.45:8300/api/12345678901234567890/lights}.
 
 Über den Port \texttt{8300} wird die emulierte \textit{Hue Bridge} erreicht,
-welche über den angegebenen Pfad Informationen über alle eingerichteten Leuchten bereitstellt.
-Wie in Kapitel \ref{sec:aufbau-hassbian} \textit{\nameref{sec:aufbau-hassbian}} beschrieben zählt zu diesen Leuchten
-auch der Schalter, über welchen sich die \ac{ps4} steuern lässt.
+welche über den angegebenen Pfad Informationen über alle eingerichteten \enquote{Leuchten}
+(darunter auch der Schalter zur Kontrolle der \ac{ps4}) bereitstellt.
 
-Als Antwort liefert Home Assistant mehrere Leuchten im JSON-Format.
-Der Teil der Antwort mit der Leuchte,
-welche die Playstation 4 repräsentiert,
+Als Antwort liefert Home Assistant mehrere Objekte im JSON-Format.
+Der Teil der Antwort welcher den Schalter,
 ist in \autoref{lst:ps4_get} dargestellt.
 Hervorzuheben sind hier folgende Felder:
 \lstinline[language=json]{"name"} enthält den nutzerfreundlichen Namen,
 welcher in der Konfiguration angegeben wurde.
 \lstinline[language=json]{"uniqueid"} enthält die
-in der Konfiguration gesetzte ID mit dem zusätzlichen Präfix \\\lstinline[language=json]{"switch"}.
+in der Konfiguration gesetzte ID mit dem zusätzlichen Präfix \lstinline[language=json]{"switch"}.
 Das Feld \lstinline[language=json]{"on"} gibt an, ob die Leuchte (und damit die Spielekonsole) gerade eingeschaltet ist.
 In diesem Fall ist sie ausgeschaltet, weshalb dieser Wert \lstinline[language=json]{false} ist.
 
@@ -108,7 +108,7 @@ das andere den Befehl \texttt{LAUNCH} (\autoref{lst:ps4-launch}).
 
 Das Feld \texttt{user-credential} (in den Listings gekürzt) ist hierbei immer gleich.
 Der darin enthaltene Wert wurde beim initialen Verbindungsaufbau automatisch ermittelt.
-Laut dem Entwickler werden zwei \texttt{WAKEUP}-Pakete und ein \texttt{LAUNCH}-Paket gesendet,
+Es werden zwei \texttt{WAKEUP}-Pakete und ein \texttt{LAUNCH}-Paket gesendet,
 um zu prüfen, ob die \ac{ps4} bereit ist eine Verbindung anzunehmen.
 
 \lstinputlisting[
@@ -116,7 +116,7 @@ um zu prüfen, ob die \ac{ps4} bereit ist eine Verbindung anzunehmen.
     label=lst:ps4-launch
 ]{ps4_launch.udp}
 
-Der eigentliche Befehl wird dann in einer auf die UDP-Pakete folgenden TCP-Verbindung ausgeführt.
+Der eigentliche Befehl wird in einer, auf die UDP-Pakete folgenden, TCP-Verbindung ausgeführt.
 Zwar ist diese Verbindung nicht mit TLS verschlüsselt,
 die Daten können dennoch nicht ausgelesen werden.
 
@@ -142,7 +142,7 @@ verschlüsselt und gesendet.
 
 \subsection{Ein- und Ausschalten über \textit{Harmony Hub}}\label{sec:durchfuehrung-harmony}
 Im Harmony Hub ist zur Nutzung der Playstation 4 eine Aktion namens \enquote{Spielen} konfiguriert.
-Zusätzlich zur Spielekonsole wird auch der Fernseher ein- bzw. ausgeschaltet sowie der entsprechende Eingangskanal gewählt.
+Zusätzlich zur Spielekonsole wird in dieser Aktion auch der Fernseher ein- bzw. ausgeschaltet.
 
 Zum Einschalten wird der durch den Home Assistant bereitgestellte Schalter genutzt.
 Dieser wird über die emulierte \textit{Hue Bridge} durch den Harmony Hub aktiviert.
@@ -154,9 +154,9 @@ sobald die Aktion \enquote{Spielen} beendet wird.
 
 \subsubsection{Einschalten}
 Der Paketmitschnitt enthält mehrere TCP-Verbindungen.
-An der Kommunikation sind wie erwartet der Harmony Hub, der \textit{Home Assistant} und die \ac{ps4} beteiligt.
+An der Kommunikation sind der Harmony Hub, der \textit{Home Assistant} und die \ac{ps4} beteiligt.
 Zusätzlich frägt der Harmony Hub per DNS die IP-Adresse von \nolinkurl{home.myharmony.com} an.
-Als Antwort wird auf den Server an mit der URL \nolinkurl{home-myharmony.us-east-1.elasticbeanstalk.com} verwiesen.
+Als Antwort wird auf den Server mit der URL \nolinkurl{home-myharmony.us-east-1.elasticbeanstalk.com} verwiesen.
 Die TCP-Verbindung zwischen Harmony Hub und Webserver ist durch TLS verschlüsselt.
 
 Der \textit{Home Assistant} und die \ac{ps4} kommunizieren, wie bereits im vorigen Abschnitt untersucht, mittels TCP und UDP.
@@ -185,7 +185,7 @@ um den Status der \ac{ps4} zu erfragen.
 \paragraph{Harmony Hub und Webserver}
 Die Verbindungen sind verschlüsselt.
 Daher können zum genauen Inhalt und Zweck keine Aussagen getroffen werden.
-Vermutlich dienen sie dazu Informationen über die gestartete Aktion mitzuteilen.
+Vermutlich dienen sie dazu, Informationen über die gestartete Aktion zu übergeben.
 
 Bei genauerer Betrachtung eines Paketes, welches vom Harmony Hub an den Webserver gesendet wird,
 sind verschiedene Besonderheiten zu erkennen:
@@ -201,34 +201,33 @@ sind verschiedene Besonderheiten zu erkennen:
 Die oberste Zeile (\textit{Frame}) steht für das gesamte Paket.
 
 In der zweiten Zeile steht die äußerste Paket-Schicht \textit{Ethernet II}.
-Deren Quelladresse ist wie zu erwarten die MAC-Adresse des Harmony Hub.
+Deren Quelladresse ist die MAC-Adresse des Harmony Hub.
 Als Zieladresse ist jedoch nicht die MAC-Adresse des Webservers,
 sondern die der FRITZ!Box angegeben.
 Dies liegt daran, dass Ethernet lediglich zur Kommunikation im lokalen Netz verwendet wird.
 Das Paket wird per Ethernet an die FRITZ!Box gesendet.
 Dort wird die \enquote{Ethernet-Nutzlast} (das IP-Paket inklusive TCP; Zeile 3) entpackt und über \textit{IPv4} an das eigentliche Ziel weitergeleitet.
-Dieses ist als Zieladresse im IP-Header angegeben.
+Dessen Adresse ist als Zieladresse im IP-Header angegeben.
 
-Da die Verbindung an sich verschlüsselt ist, lassen sich aus den übertragenen Daten keine Informationen gewinnen.
+Da die Verbindung verschlüsselt ist, lassen sich aus den übertragenen Daten keine Informationen gewinnen.
 Der Zielport des TCP-Headers in der letzen Zeile liefert jedoch einen Hinweis auf die Methode der Übertragung.
 Der Port \textit{443} wird standardmäßig für \textit{HTTPS}-Verbindungen genutzt.
 Daraus und aus der Tatsache, dass die Verbindung mittels TLS verschlüsselt ist,
 lässt sich mit hoher Wahrscheinlichkeit schließen, dass tatsächlich \textit{HTTPS} genutzt wird.
 
-\newpage
-
 \paragraph{Home Assistant und Playstation 4}
-Die Kommunikation zwischen dem \textit{Home Assistant} und \ac{ps4} wurde bereits im vorigen Abschnitt betrachtet.
-Der Paketmittschnitt zeigt, dass dies, wie zu erwarten, nach dem gleichen Schema abläuft.
+Ziwschen diesen Geräten läuft die Kommunikation nach den gleichen Schema ab,
+wie es bereits im vorigen Abschnitt betrachtet wurde.
 
 \paragraph{Home Assistant und Harmony Hub}
-Wie erwartet werden auch während des Einschaltens HTTP-GET-Requests (siehe Kapitel \ref{sec:durchfuehrung-aus}) genutzt,
+Auch während des Einschaltens werden HTTP-GET-Requests (siehe Kapitel \ref{sec:durchfuehrung-aus}) genutzt,
 um vom Harmony Hub aus den Status der \ac{ps4} zu erfragen.
 
 Zusätzlich wird ein HTTP-PUT-Request gesendet, wodurch der Befehl das Gerät einzuschalten übermittelt wird.
 Dieser Request wird an die Adresse \nolinkurl{http://192.168.178.45:8300/api/12345678901234567890/lights/1/state} gesendet.
+
 Die angegebene IP-Adresse ist die des Raspberry PI, welcher an Port 8300 Befehle an die emulierte \textit{Hue Bridge} des \textit{Home Assistant} entgegennimmt.
-\texttt{/api/12345678901234567890/lights/1} wählt das zu kontrollierende Gerät aus.
+\texttt{/api/\\12345678901234567890/lights/1} wählt das zu kontrollierende Gerät aus.
 Wie in Kapitel \ref{sec:aufbau-hassbian} beschrieben, werden die Geräte nach außen hin als Lichter (engl. Lights) präsentiert.
 Als Nutzdaten enthält das Paket die in \autoref{lst:ps4_on-request} gezeigten Daten im JSON-Format.
 
@@ -242,7 +241,6 @@ Für diesen Anwendungsfall ist einzig der Wert \lstinline[language=json]{"on": t
 Mit dem Wert \lstinline[language=json]{"x,y"} könnte bei echten Lampen die Farbe
 und mit dem Wert \lstinline[language=json]{"bri"} die Helligkeit gesteuert werden \cite{Coreconc26:online}.
 
-\newpage
 
 Die Antwort auf den PUT-Request enthält ebenfalls Daten im JSON-Format,
 um den Erfolg des Befehls mitzuteilen (siehe \autoref{lst:ps4_on-response}).
