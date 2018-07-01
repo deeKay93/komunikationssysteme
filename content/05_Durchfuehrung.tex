@@ -23,7 +23,7 @@ dass der Router das Paket an alle lokalen Geräte verteilt.
 Der Inhalt des Pakets (siehe \autoref{lst:ps4-wakeup_search}) besteht aus dem Kommando \texttt{SRCH},
 der HTTP-Version und einer \texttt{device-discovery-protocol-version}.
 Vermutlich steht das Kürzel \texttt{SRCH} für \enquote{Search}.
-Mit disem Paket werden keine Aktionen ausgeführt,
+Mit diesem Paket werden keine Aktionen ausgeführt,
 sondern nur Systeminformationen angefordert.
 
 \lstinputlisting[
@@ -210,13 +210,13 @@ Dort wird die \enquote{Ethernet-Nutzlast} (das IP-Paket inklusive TCP; Zeile 3) 
 Dessen Adresse ist als Zieladresse im IP-Header angegeben.
 
 Da die Verbindung verschlüsselt ist, lassen sich aus den übertragenen Daten keine Informationen gewinnen.
-Der Zielport des TCP-Headers in der letzen Zeile liefert jedoch einen Hinweis auf die Methode der Übertragung.
+Der Zielport des TCP-Headers in der letzten Zeile liefert jedoch einen Hinweis auf die Methode der Übertragung.
 Der Port \textit{443} wird standardmäßig für \textit{HTTPS}-Verbindungen genutzt.
 Daraus und aus der Tatsache, dass die Verbindung mittels TLS verschlüsselt ist,
 lässt sich mit hoher Wahrscheinlichkeit schließen, dass tatsächlich \textit{HTTPS} genutzt wird.
 
 \paragraph{Home Assistant und Playstation 4}
-Ziwschen diesen Geräten läuft die Kommunikation nach den gleichen Schema ab,
+Zwischen diesen Geräten läuft die Kommunikation nach den gleichen Schema ab,
 wie es bereits im vorigen Abschnitt betrachtet wurde.
 
 \paragraph{Home Assistant und Harmony Hub}
